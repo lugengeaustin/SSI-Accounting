@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply h-full;
+  }
+  body {
+    @apply bg-bg text-ink font-sans text-[14px];
+  }
+  .mono {
+    @apply font-mono tabular-nums;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-blue px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-blued disabled:opacity-60;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-[12.5px] font-medium;
+  }
+  .btn-ghost {
+    @apply border border-line bg-transparent text-brand-blue hover:border-brand-blue hover:bg-brand-blue/5;
+  }
+  .btn-gold {
+    @apply bg-brand-gold text-[#3a2e00] hover:brightness-95;
+  }
+  .btn-green {
+    @apply bg-brand-green text-white hover:brightness-95;
+  }
+  .btn-danger {
+    @apply bg-brand-red text-white hover:brightness-95;
+  }
+  .card {
+    @apply rounded-[10px] border border-line bg-card shadow-card;
+  }
+  .input {
+    @apply w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/15;
+  }
+  .label {
+    @apply mb-1.5 mt-3 block text-[12px] font-medium uppercase tracking-wide text-muted;
+  }
+  .tag {
+    @apply inline-block rounded-full px-2.5 py-0.5 text-[11.5px] font-semibold;
+  }
+  .th {
+    @apply border-b border-line px-3 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wide text-muted;
+  }
+  .td {
+    @apply border-b border-line px-3 py-2.5 text-[13.5px] align-middle;
+  }
+}
