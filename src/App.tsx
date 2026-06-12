@@ -20,6 +20,10 @@ import Analytics from "./pages/Analytics";
 import Audit from "./pages/Audit";
 import Explorer from "./pages/Explorer";
 import Packs from "./pages/Packs";
+import Recurring from "./pages/Recurring";
+import Assets from "./pages/Assets";
+import Wht from "./pages/Wht";
+import Payroll from "./pages/Payroll";
 
 export default function App() {
   return (
@@ -46,6 +50,10 @@ export default function App() {
         <Route path="/reports" element={<Reports />} />
         <Route path="/explorer" element={<Explorer />} />
         <Route path="/packs" element={<Packs />} />
+        <Route path="/recurring" element={<Recurring />} />
+        <Route path="/assets" element={<Assets />} />
+        <Route path="/wht" element={<Wht />} />
+        <Route path="/payroll" element={<Payroll />} />
         <Route path="/audit" element={<Audit />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/settings" element={<Settings />} />

@@ -10,6 +10,7 @@ const groups: Group[] = [
     { to: "/receipts", label: "Receipts" },
     { to: "/transactions", label: "Transactions" },
     { to: "/imprests", label: "Imprests" },
+    { to: "/payroll", label: "Payroll" },
   ] },
   { section: "Billing", items: [
     { to: "/invoices", label: "Invoices" },
@@ -20,6 +21,11 @@ const groups: Group[] = [
     { to: "/wizard", label: "Master Wizard" },
     { to: "/budgets", label: "Budgets" },
     { to: "/documents", label: "Documents" },
+  ] },
+  { section: "Automation", items: [
+    { to: "/recurring", label: "Recurring" },
+    { to: "/assets", label: "Fixed Assets" },
+    { to: "/wht", label: "Withholding Tax" },
   ] },
   { section: "Insights", items: [
     { to: "/reports", label: "Reports" },

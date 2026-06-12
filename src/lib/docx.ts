@@ -11,7 +11,8 @@ export type DocPayload = {
   signatures?: string[];
 };
 
-export async function generateDocx(p: DocPayload) {
+/** Calls the docgen edge function and returns the .docx as a Blob (no download). */
+export async function docgenBlob(p: DocPayload): Promise<{ filename: string; blob: Blob }> {
   const res = await fetch(`${SB_URL}/functions/v1/docgen`, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -23,12 +24,21 @@ export async function generateDocx(p: DocPayload) {
   const bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
   const blob = new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+  return { filename, blob };
+}
+
+export function downloadBlob(blob: Blob, filename: string) {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;
   a.click();
   window.URL.revokeObjectURL(url);
+}
+
+export async function generateDocx(p: DocPayload) {
+  const { filename, blob } = await docgenBlob(p);
+  downloadBlob(blob, filename);
 }
 
 export async function reportDocx(opts: { title: string; ref?: string; headers: string[]; rows: string[][]; aligns?: string[]; totals?: { label: string; value: string; bold?: boolean }[] }) {
