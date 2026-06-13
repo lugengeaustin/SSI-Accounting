@@ -1,0 +1,11 @@
+{
+  "scan": ["src"],
+  "allow": [
+    "src/lib/print.ts",
+    "src/components/ErrorBoundary.tsx",
+    "src/index.css",
+    "src/components/ui.tsx",
+    "src/pages/Analytics.tsx",
+    "src/pages/Explorer.tsx"
+  ]
+}
