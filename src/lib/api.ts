@@ -94,9 +94,12 @@ export async function postJournal(p: {
     await supabase.rpc("fn_post_journal", {
       p_date: p.date,
       p_description: p.description,
-      p_project: p.project,
+      // fn_post_journal accepts NULL for project / source_id (optional in the
+      // DB function); the generated RPC types declare them as non-nullable, so
+      // assert the runtime-valid null through.
+      p_project: p.project as string,
       p_source: p.source ?? "manual",
-      p_source_id: p.sourceId ?? null,
+      p_source_id: (p.sourceId ?? null) as string,
       p_currency: p.currency,
       p_fx: p.fx,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
