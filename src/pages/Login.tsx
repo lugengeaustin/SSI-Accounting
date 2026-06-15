@@ -48,7 +48,7 @@ export default function Login() {
           <input className="input" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@sub-sahara.org" />
           <label className="label">Password</label>
           <input className="input" type="password" required minLength={6} value={pass} onChange={(e) => setPass(e.target.value)} placeholder="••••••••" />
-          {err && <div className="mt-3.5 rounded-lg bg-[#fdecea] px-3 py-2.5 text-[13px] text-brand-red">{err}</div>}
+          {err && <div className="mt-3.5 rounded-lg bg-brand-red/10 px-3 py-2.5 text-[13px] text-brand-red">{err}</div>}
           <button className="btn mt-4 w-full" disabled={busy}>
             {busy ? <Spinner /> : mode === "up" ? "Create account" : "Sign in"}
           </button>

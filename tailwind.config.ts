@@ -1,23 +1,26 @@
 import type { Config } from "tailwindcss";
+import { colors as ssi } from "@ssi/brand/tokens";
 
-// SSI Editorial Precision design tokens
+// Calm Studio palette, sourced from the canonical @ssi/brand package so brand
+// changes propagate here automatically. The class names below (brand.*, ink,
+// muted, line, bg, card) are unchanged — only their VALUES now come from tokens.
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
         brand: {
-          blue: "#1E3FA0",
-          blued: "#152C70",
-          gold: "#F0C84A",
-          green: "#22B14C",
-          red: "#C0392B",
+          blue: ssi.execBlue,
+          blued: ssi.execBlueDeep,
+          gold: ssi.growthGold,
+          green: ssi.sustainGreen,
+          red: ssi.error,
         },
-        ink: "#1A1D24",
-        muted: "#5C6470",
-        line: "#E3E6EC",
-        bg: "#F4F6FA",
-        card: "#FFFFFF",
+        ink: ssi.ink,
+        muted: ssi.inkMuted,
+        line: ssi.line,
+        bg: ssi.offWhite,
+        card: ssi.white,
       },
       fontFamily: {
         sans: ["Roboto", "system-ui", "sans-serif"],

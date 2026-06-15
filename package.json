@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "brand-lint": "ssi-brand-lint"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
@@ -19,6 +20,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@ssi/brand": "https://github.com/lugengeaustin/ssi-brand/archive/refs/tags/v1.0.0-rc.2.tar.gz",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
