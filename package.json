@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "brand-lint": "ssi-brand-lint"
   },
   "dependencies": {
     "@ssi/brand": "https://github.com/lugengeaustin/ssi-brand/archive/refs/tags/v1.0.0.tar.gz",
