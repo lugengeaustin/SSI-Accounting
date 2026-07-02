@@ -95,7 +95,7 @@ export default function Wizard() {
       <PageHeader title="Master wizard" crumb="Reconstruct a past project — project → invoices → expenses" />
       <div className="mb-4 flex gap-2">
         {STEPS.map((s, i) => (
-          <div key={s} className={`flex items-center gap-2 rounded-full px-3 py-1 text-[12.5px] font-medium ${i === step ? "bg-brand-blue text-white" : i < step ? "bg-brand-green/15 text-brand-green" : "bg-bg text-muted"}`}>
+          <div key={s} className={`flex items-center gap-2 rounded-full px-3 py-1 text-[12.5px] font-medium ${i === step ? "bg-brand-blue text-white" : i < step ? "bg-green-soft text-green-deep" : "bg-bg text-muted"}`}>
             <span className="grid h-5 w-5 place-items-center rounded-full bg-white/30 text-[11px]">{i < step ? "✓" : i + 1}</span>{s}
           </div>
         ))}
@@ -134,7 +134,7 @@ export default function Wizard() {
                 ))}
               </tbody>
             </table>
-            <button className="mt-2 text-[13px] font-semibold text-brand-blue" onClick={() => setInvs((a) => [...a, { description: "", date: today(), subtotal: "", vat: "" }])}>+ Add invoice</button>
+            <button className="mt-2 text-[13px] font-medium text-brand-blue" onClick={() => setInvs((a) => [...a, { description: "", date: today(), subtotal: "", vat: "" }])}>+ Add invoice</button>
             <div className="mt-4 flex justify-between"><button className="btn btn-ghost btn-sm" onClick={() => setStep(2)}>Skip</button><button className="btn btn-sm" onClick={saveInvoices} disabled={busy}>Post invoices →</button></div>
           </>
         )}
@@ -142,7 +142,7 @@ export default function Wizard() {
         {step === 2 && (
           <>
             <p className="mb-2 text-muted">Add historical expenses. Each posts <b>Dr expense · Cr petty cash</b>.</p>
-            <div className="mb-3 rounded-lg border border-dashed border-line p-3">
+            <div className="mb-3 rounded-field border border-dashed border-line p-3">
               <label className="label !mt-0">Import from Excel (columns: date, payee, account, amount)</label>
               <input className="input" type="file" accept=".xlsx,.xls,.csv" onChange={(e) => {
                 const file = e.target.files?.[0]; if (!file) return;
@@ -176,7 +176,7 @@ export default function Wizard() {
                 ))}
               </tbody>
             </table>
-            <button className="mt-2 text-[13px] font-semibold text-brand-blue" onClick={() => setExps((a) => [...a, { date: today(), payee: "", account: "5100", amount: "" }])}>+ Add expense</button>
+            <button className="mt-2 text-[13px] font-medium text-brand-blue" onClick={() => setExps((a) => [...a, { date: today(), payee: "", account: "5100", amount: "" }])}>+ Add expense</button>
             <div className="mt-4 flex justify-between"><button className="btn btn-ghost btn-sm" onClick={() => setStep(3)}>Skip</button><button className="btn btn-sm" onClick={saveExpenses} disabled={busy}>Post expenses →</button></div>
           </>
         )}
@@ -184,7 +184,7 @@ export default function Wizard() {
         {step === 3 && (
           <div className="py-6 text-center">
             <div className="mb-2 text-[40px]">✓</div>
-            <h3 className="text-[18px] font-bold">Backfill complete</h3>
+            <h3 className="text-[18px] font-medium">Backfill complete</h3>
             <p className="mt-1 text-muted">Project <b>{proj.name}</b> reconstructed — {counts.inv} invoice(s) and {counts.exp} expense(s) posted to the ledger.</p>
             <div className="mt-5 flex justify-center gap-2">
               <button className="btn btn-ghost btn-sm" onClick={() => nav("/projects")}>View projects</button>

@@ -133,12 +133,12 @@ function NewTxn({ onClose, onSaved }: { onClose: () => void; onSaved: () => void
           ))}
         </tbody>
       </table>
-      <button className="mt-2 text-[13px] font-semibold text-brand-blue" onClick={() => setLines((ls) => [...ls, { ...blank }])}>+ Add line</button>
+      <button className="mt-2 text-[13px] font-medium text-brand-blue" onClick={() => setLines((ls) => [...ls, { ...blank }])}>+ Add line</button>
 
       <div className="mt-3 flex items-center justify-end gap-5 text-[13px]">
         <span className="text-muted">Debits <b className="mono">{num(dr)}</b></span>
         <span className="text-muted">Credits <b className="mono">{num(cr)}</b></span>
-        <span className={balanced ? "font-bold text-brand-green" : "font-bold text-brand-red"}>{balanced ? "✓ Balanced" : "Δ " + num(dr - cr)}</span>
+        <span className={balanced ? "font-medium text-brand-green" : "font-medium text-brand-red"}>{balanced ? "✓ Balanced" : "Δ " + num(dr - cr)}</span>
       </div>
     </Modal>
   );
@@ -164,7 +164,7 @@ function LinesModal({ entry, onClose }: { entry: JournalEntry; onClose: () => vo
               <tr key={l.id}><td className="td">{l.account_code} · {a?.name}<div className="text-[11px] text-muted">{l.description}</div></td><td className="td mono text-right">{Number(l.debit) ? num(l.debit) : ""}</td><td className="td mono text-right">{Number(l.credit) ? num(l.credit) : ""}</td></tr>
             );
           })}
-          <tr><td className="td text-right font-bold">Total ({entry.currency})</td><td className="td mono text-right font-bold">{num(td)}</td><td className="td mono text-right font-bold">{num(tc)}</td></tr>
+          <tr><td className="td text-right font-medium">Total ({entry.currency})</td><td className="td mono text-right font-medium">{num(td)}</td><td className="td mono text-right font-medium">{num(tc)}</td></tr>
         </tbody>
       </table>
     </Modal>

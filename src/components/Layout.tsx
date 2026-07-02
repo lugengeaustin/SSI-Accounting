@@ -48,18 +48,19 @@ export default function Layout() {
 
   return (
     <div className="grid min-h-screen grid-cols-[236px_1fr] max-[980px]:grid-cols-1">
-      <aside className="sticky top-0 flex h-screen flex-col overflow-y-auto border-r border-line bg-white p-4 max-[980px]:hidden">
+      <aside className="sticky top-0 flex h-screen flex-col overflow-y-auto border-r border-line bg-card p-4 max-[980px]:hidden">
         <div className="mb-5 flex items-center gap-2.5 px-1.5">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-blue font-black text-white">S</span>
-          <b className="tracking-wide">SSI&nbsp;ACCOUNTING</b>
+          {/* Un-boxed SSI logo — no tile/badge around the mark. */}
+          <img src="/ssi-logo.png" alt="Sub-Sahara Institute" width={36} height={36} className="h-9 w-9 shrink-0 object-contain" />
+          <span className="font-medium tracking-wide">E-accounts</span>
         </div>
         <nav className="flex flex-col gap-0.5">
           {groups.map((g, gi) => (
             <div key={gi}>
-              {g.section && <div className="mb-1 mt-4 px-3 text-[11px] font-semibold uppercase tracking-wide text-muted">{g.section}</div>}
+              {g.section && <div className="mb-1 mt-4 px-3 text-[11px] font-medium uppercase tracking-wide text-muted">{g.section}</div>}
               {g.items.filter((i) => !i.admin || isAdmin).map((i) => (
                 <NavLink key={i.to} to={i.to} end={i.end}
-                  className={({ isActive }) => `block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isActive ? "bg-brand-blue/10 text-brand-blue" : "text-ink hover:bg-bg"}`}>
+                  className={({ isActive }) => `block rounded-pill px-3 py-2 text-sm font-medium transition-calm ${isActive ? "bg-grad-active-nav text-white shadow-card" : "text-ink hover:bg-blue-soft"}`}>
                   {i.label}
                 </NavLink>
               ))}

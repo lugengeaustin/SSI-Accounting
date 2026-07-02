@@ -27,7 +27,7 @@ export default function Accounts() {
         return (
           <Card key={cat} className="mb-3.5">
             <div className="flex items-center justify-between border-b border-line px-[18px] py-3.5">
-              <h3 className="text-[15px] font-bold">{cat}</h3>
+              <h3 className="text-[15px] font-medium">{cat}</h3>
               <b className="mono">{num(tot)}</b>
             </div>
             <div className="overflow-x-auto">

@@ -12,13 +12,13 @@ export default class ErrorBoundary extends Component<{ children: ReactNode }, { 
   render() {
     if (this.state.error) {
       return (
-        <div style={{ padding: 24, fontFamily: "system-ui, sans-serif", maxWidth: 760, margin: "40px auto" }}>
-          <h2 style={{ color: "#C0392B", marginBottom: 6 }}>The app hit an error while loading</h2>
-          <p style={{ color: "#5C6470", marginTop: 0 }}>
+        <div style={{ padding: 24, fontFamily: "Roboto, system-ui, sans-serif", maxWidth: 760, margin: "40px auto" }}>
+          <h2 style={{ color: "var(--red, #c0392b)", marginBottom: 6, fontWeight: 500 }}>The app hit an error while loading</h2>
+          <p style={{ color: "var(--muted, #5c6470)", marginTop: 0 }}>
             This message replaces a blank screen so the cause is visible. Copy the details below (or open the browser
             console) and share them and I'll fix it.
           </p>
-          <pre style={{ whiteSpace: "pre-wrap", background: "#F4F6FA", padding: 16, borderRadius: 8, fontSize: 12, overflow: "auto", border: "1px solid #E3E6EC" }}>
+          <pre style={{ whiteSpace: "pre-wrap", background: "var(--bg, #f8f7f2)", padding: 16, borderRadius: 12, fontSize: 12, overflow: "auto", border: "1px solid var(--line, #e3e6ec)" }}>
             {String(this.state.error?.stack || this.state.error)}
           </pre>
         </div>

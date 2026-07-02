@@ -7,7 +7,7 @@ export default function Contacts() {
   return (
     <>
       <PageHeader title="Contacts" crumb="Clients & vendors" />
-      <div className="mb-3.5 inline-flex overflow-hidden rounded-lg border border-line">
+      <div className="mb-3.5 inline-flex overflow-hidden rounded-field border border-line">
         {(["clients", "vendors"] as const).map((t) => (
           <button key={t} onClick={() => setTab(t)} className={`border-r border-line px-3 py-1.5 text-[13px] capitalize last:border-r-0 ${tab === t ? "bg-brand-blue text-white" : "bg-white text-muted"}`}>{t}</button>
         ))}

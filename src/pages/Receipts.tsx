@@ -55,8 +55,8 @@ export default function Receipts() {
   return (
     <>
       <PageHeader title="Receipts" crumb="OCR review queue & expense capture" actions={<button className="btn btn-sm" onClick={() => setEdit(null)}>+ Add receipt</button>} />
-      {pending > 0 && <div className="mb-3 rounded-lg bg-[#fff4d6] px-3 py-2 text-[13px] text-[#92660b]">{pending} receipt(s) captured offline, waiting to sync.</div>}
-      <div className="mb-3.5 inline-flex overflow-hidden rounded-lg border border-line">
+      {pending > 0 && <div className="mb-3 rounded-field bg-warn-soft px-3 py-2 text-[13px] text-warn">{pending} receipt(s) captured offline, waiting to sync.</div>}
+      <div className="mb-3.5 inline-flex overflow-hidden rounded-field border border-line">
         {FILTERS.map((f) => (
           <button key={f} onClick={() => setFilter(f)} className={`border-r border-line px-3 py-1.5 text-[13px] last:border-r-0 ${filter === f ? "bg-brand-blue text-white" : "bg-white text-muted"}`}>{f[0] + f.slice(1).toLowerCase()}</button>
         ))}

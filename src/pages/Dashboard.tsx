@@ -67,7 +67,7 @@ export default function Dashboard() {
       {imp.length > 0 && (
         <Card className="mb-4">
           <div className="flex items-center justify-between border-b border-line px-[18px] py-3.5">
-            <h3 className="text-[15px] font-bold">Outstanding imprests — unretired cash</h3>
+            <h3 className="text-[15px] font-medium">Outstanding imprests — unretired cash</h3>
             <Link to="/imprests" className="btn btn-ghost btn-sm">Manage</Link>
           </div>
           <div className="overflow-x-auto">
@@ -86,7 +86,7 @@ export default function Dashboard() {
                     <td className="td text-muted">{i.purpose}</td>
                     <td className="td mono text-right">{num(i.amount_issued)}</td>
                     <td className="td mono text-right">{num(i.balance)}</td>
-                    <td className="td mono text-right"><span className={Number(i.age_days) > 14 ? "font-bold text-brand-red" : ""}>{i.age_days}d</span></td>
+                    <td className="td mono text-right"><span className={Number(i.age_days) > 14 ? "font-medium text-brand-red" : ""}>{i.age_days}d</span></td>
                   </tr>
                 ))}
               </tbody>
@@ -97,7 +97,7 @@ export default function Dashboard() {
 
       <Card>
         <div className="flex items-center justify-between border-b border-line px-[18px] py-3.5">
-          <h3 className="text-[15px] font-bold">Recent transactions</h3>
+          <h3 className="text-[15px] font-medium">Recent transactions</h3>
           <Link to="/transactions" className="btn btn-ghost btn-sm">View ledger</Link>
         </div>
         <div className="overflow-x-auto">

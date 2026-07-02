@@ -2,53 +2,253 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ════════════════════════════════════════════════════════════════════
+ * Calm Studio design tokens (ported from the suite reference, E-mteja).
+ * This file is the ONE place raw brand hex lives. Everything else consumes
+ * these vars via the Tailwind semantic tokens (canvas/card/ink/muted/line/
+ * blue/gold/green/danger/warn), the legacy aliases (brand-blue, bg, …) that
+ * now resolve to the same vars, or the @ssi/brand preset utilities (ssi-*).
+ * ════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Canvas + surfaces */
+  --bg: #f8f7f2;          /* off-white canvas */
+  --card: #ffffff;        /* white cards */
+  --ink: #1a1d24;         /* primary text */
+  --muted: #5c6470;       /* secondary text */
+  --line: #e3e6ec;        /* hairline / dividers */
+
+  /* Brand pigments + tinted fills */
+  --blue: #1e3fa0;
+  --blue-deep: #152c70;
+  --blue-soft: rgba(30, 63, 160, 0.08);
+
+  --gold: #f0c84a;
+  --gold-soft: rgba(240, 200, 74, 0.18);
+
+  --green: #22b14c;
+  --green-deep: #178038;
+  --green-soft: rgba(34, 177, 76, 0.12);
+
+  --red: #c0392b;
+  --red-soft: rgba(192, 57, 43, 0.1);
+
+  --warn: #c77700;
+  --warn-soft: rgba(199, 119, 0, 0.12);
+
+  /* Focus ring — consistent, brand-blue, used by every interactive control */
+  --ring: rgba(30, 63, 160, 0.45);
+
+  --radius-card: 18px;
+
+  /* Refined elevation scale (resting whisper → hover lift → overlay float) */
+  --shadow-card: 0 1px 1px rgba(20, 30, 60, 0.04);
+  --shadow-lift:
+    0 1px 2px rgba(20, 30, 60, 0.05),
+    0 8px 18px rgba(20, 30, 60, 0.08);
+  --shadow-pop:
+    0 2px 6px rgba(20, 30, 60, 0.06),
+    0 18px 44px rgba(20, 30, 60, 0.14);
+
+  /* Sanctioned brand gradients (built from the palette vars only) */
+  --grad-brand: linear-gradient(90deg, var(--blue) 0%, var(--gold) 50%, var(--green) 100%);
+  --grad-primary: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+  --grad-primary-hover: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-deep) 100%);
+  --grad-surface: linear-gradient(160deg, var(--blue-soft) 0%, rgba(255, 255, 255, 0) 60%);
+  --grad-numeric: linear-gradient(120deg, var(--blue) 0%, var(--green) 100%);
+  --grad-active-nav: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+
+  /* Glass surface (gentle translucency + blur) */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-blur: 12px;
+
+  /* Motion tokens — shared easing + duration for micro-interactions */
+  --ease-calm: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+}
+
+/* Calm Studio dark — opt-in via .dark or [data-theme="dark"].
+ * Components are theme-agnostic because they consume the vars above. */
+.dark,
+[data-theme="dark"] {
+  --bg: #1a1a2e;
+  --card: #232338;
+  --ink: #ececf2;
+  --muted: #9ca0b0;
+  --line: #33334d;
+  --blue: #6e8ae0;
+  --blue-deep: #5572c8;
+  --blue-soft: rgba(110, 138, 224, 0.16);
+  --gold-soft: rgba(240, 200, 74, 0.2);
+  --green-soft: rgba(63, 199, 104, 0.18);
+  --red-soft: rgba(192, 57, 43, 0.22);
+  --warn-soft: rgba(199, 119, 0, 0.2);
+  --ring: rgba(110, 138, 224, 0.55);
+  --shadow-card: 0 1px 1px rgba(0, 0, 0, 0.3);
+  --shadow-lift:
+    0 1px 2px rgba(0, 0, 0, 0.32),
+    0 8px 18px rgba(0, 0, 0, 0.4);
+  --shadow-pop:
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    0 18px 44px rgba(0, 0, 0, 0.5);
+  --glass-bg: rgba(35, 35, 56, 0.72);
+}
+
 @layer base {
   html,
   body,
   #root {
     @apply h-full;
   }
-  body {
-    @apply bg-bg text-ink font-sans text-[14px];
+  html {
+    -webkit-font-smoothing: antialiased;
   }
+  body {
+    @apply bg-canvas font-sans text-[14px] text-ink;
+  }
+  /* Calm Studio: weight 500 max on headings. */
+  h1, h2, h3, h4 { font-weight: 500; }
   .mono {
     @apply font-mono tabular-nums;
   }
 }
 
+/* Selection colour — brand blue tint */
+::selection {
+  background: var(--blue-soft);
+  color: var(--ink);
+}
+
+/* Consistent focus-visible ring across hand-rolled controls. */
+:where(button, a, input, textarea, select, [tabindex]) {
+  transition: outline-offset var(--dur-fast) var(--ease-calm);
+}
+:where(button, a, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@layer utilities {
+  /* Mono numerics — the canonical Calm Studio number treatment. */
+  .num {
+    font-family: "Roboto Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Calm Studio accent bar — blue → gold → green hairline (login, headers). */
+  .brand-accent-bar {
+    background: var(--grad-brand);
+  }
+  .accent-bar-grad {
+    background-image: var(--grad-brand);
+  }
+  /* Primary brand gradient fill (button, active nav). */
+  .grad-primary {
+    background-image: var(--grad-primary);
+  }
+  .grad-primary-hover:hover {
+    background-image: var(--grad-primary-hover);
+  }
+  /* Soft gradient wash for surfaces (stat cards / page headers / login). */
+  .grad-surface {
+    background-image: var(--grad-surface);
+  }
+  /* Gradient-clipped numeric accent. */
+  .grad-numeric {
+    background-image: var(--grad-numeric);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Glass surface — gentle translucency + blur. */
+  .glass {
+    background-color: var(--glass-bg);
+    backdrop-filter: saturate(1.4) blur(var(--glass-blur));
+    -webkit-backdrop-filter: saturate(1.4) blur(var(--glass-blur));
+  }
+  /* Hover-lift affordance — subtle translateY + deeper shadow on cards. */
+  .lift {
+    transition:
+      transform var(--dur-base) var(--ease-calm),
+      box-shadow var(--dur-base) var(--ease-calm),
+      border-color var(--dur-base) var(--ease-calm);
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+  /* Calm transition shorthand for pills / menu items / rows. */
+  .transition-calm {
+    transition:
+      background-color var(--dur-base) var(--ease-calm),
+      color var(--dur-base) var(--ease-calm),
+      border-color var(--dur-base) var(--ease-calm),
+      box-shadow var(--dur-base) var(--ease-calm),
+      transform var(--dur-base) var(--ease-calm);
+  }
+}
+
+/* Respect reduced-motion: disable lifts and entrance animations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .lift:hover {
+    transform: none;
+  }
+}
+
+/* ── Component seam. The pages consume these classes; the definitions below
+ *    are the refined Calm Studio recipes (pill buttons on the primary
+ *    gradient, 18px cards on the whisper→lift elevation scale, 12px fields
+ *    with the calm focus ring). ── */
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-brand-blue px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-blued disabled:opacity-60;
+    @apply inline-flex items-center justify-center gap-2 rounded-pill px-4 py-2.5 text-sm font-medium text-white shadow-card transition-calm hover:shadow-lift active:translate-y-px disabled:opacity-60 disabled:hover:shadow-card;
+    background-image: var(--grad-primary);
+  }
+  .btn:hover {
+    background-image: var(--grad-primary-hover);
   }
   .btn-sm {
     @apply px-3 py-1.5 text-[12.5px] font-medium;
   }
+  /* Variant fills replace the primary gradient. */
+  .btn-ghost,
+  .btn-gold,
+  .btn-green,
+  .btn-danger {
+    background-image: none;
+  }
   .btn-ghost {
-    @apply border border-line bg-transparent text-brand-blue hover:border-brand-blue hover:bg-brand-blue/5;
+    @apply border border-line bg-transparent text-blue shadow-none hover:border-blue hover:bg-blue-soft hover:shadow-none;
   }
   .btn-gold {
-    @apply bg-brand-gold text-[#3a2e00] hover:brightness-95;
+    @apply bg-gold text-ssi-blue-deep hover:brightness-95;
   }
   .btn-green {
-    @apply bg-brand-green text-white hover:brightness-95;
+    @apply bg-green text-white hover:brightness-95;
   }
   .btn-danger {
-    @apply bg-brand-red text-white hover:brightness-95;
+    @apply bg-danger text-white hover:brightness-95;
   }
   .card {
-    @apply rounded-[10px] border border-line bg-card shadow-card;
+    @apply rounded-card border border-ssi-ink/5 bg-card shadow-card;
   }
   .input {
-    @apply w-full rounded-lg border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/15;
+    @apply w-full rounded-field border border-line bg-card px-3 py-2.5 text-sm text-ink outline-none transition-calm focus:border-blue focus:ring-2 focus:ring-ssi-blue/15;
   }
   .label {
     @apply mb-1.5 mt-3 block text-[12px] font-medium uppercase tracking-wide text-muted;
   }
   .tag {
-    @apply inline-block rounded-full px-2.5 py-0.5 text-[11.5px] font-semibold;
+    @apply inline-block rounded-pill px-2.5 py-0.5 text-[11.5px] font-medium;
   }
   .th {
-    @apply border-b border-line px-3 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wide text-muted;
+    @apply border-b border-line px-3 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-muted;
   }
   .td {
     @apply border-b border-line px-3 py-2.5 text-[13.5px] align-middle;

@@ -49,7 +49,7 @@ export default function Team() {
       <PageHeader title="Team & access" crumb="Authorise who can sign in · manage your finance team" actions={<button className="btn btn-sm" onClick={() => setAdding(true)}>+ Authorise email</button>} />
       <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
         <Card>
-          <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-bold">Members</h3></div>
+          <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Members</h3></div>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead><tr><th className="th">Name</th><th className="th">Email</th><th className="th">Role</th></tr></thead>
@@ -58,7 +58,7 @@ export default function Team() {
           </div>
         </Card>
         <Card>
-          <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-bold">Authorised emails</h3></div>
+          <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Authorised emails</h3></div>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead><tr><th className="th">Email</th><th className="th"></th></tr></thead>

@@ -1,0 +1,58 @@
+{
+  "name": "SSI Accounting — Report Delivery (Email + WhatsApp)",
+  "active": false,
+  "settings": { "timezone": "Africa/Dar_es_Salaam" },
+  "nodes": [
+    {
+      "parameters": { "rule": { "interval": [ { "field": "months", "triggerAtDayOfMonth": 1, "triggerAtHour": 7 } ] } },
+      "id": "a1", "name": "Schedule: 1st 07:00", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1.2, "position": [260, 200]
+    },
+    {
+      "parameters": { "httpMethod": "GET", "path": "ssi-report-now", "options": {} },
+      "id": "a2", "name": "Webhook: send now", "type": "n8n-nodes-base.webhook", "typeVersion": 2, "position": [260, 420]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://eatygefbexdxrqmstkeu.supabase.co/functions/v1/report-pack",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [ { "name": "x-token", "value": "ssi_report_1b6adc5301cbb37efdaf52e26bf79e4fe0d9e801bc9cfe9b" } ] },
+        "options": {}
+      },
+      "id": "a3", "name": "Get report pack", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [560, 300]
+    },
+    {
+      "parameters": {
+        "resource": "message", "operation": "send",
+        "sendTo": "REPLACE_WITH_RECIPIENT_EMAILS",
+        "subject": "={{ $json.subject }}",
+        "emailType": "html",
+        "message": "={{ $json.email_html }}",
+        "options": {}
+      },
+      "id": "a4", "name": "Gmail: email summary", "type": "n8n-nodes-base.gmail", "typeVersion": 2.1, "position": [860, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v19.0/REPLACE_PHONE_NUMBER_ID/messages",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [ { "name": "Authorization", "value": "Bearer REPLACE_WHATSAPP_TOKEN" }, { "name": "content-type", "value": "application/json" } ] },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ messaging_product: 'whatsapp', to: 'REPLACE_RECIPIENT_MSISDN', type: 'text', text: { body: $json.whatsapp_text } }) }}",
+        "options": {}
+      },
+      "id": "a5", "name": "WhatsApp: send summary", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [860, 400]
+    },
+    {
+      "parameters": { "content": "## SSI Report Delivery\nSchedule (1st 07:00 EAT) or the webhook calls the report-pack endpoint, which returns `subject`, `email_html` and `whatsapp_text`. Gmail sends the email; the HTTP node posts the WhatsApp text.\n\n**Set before activating:** Gmail credential + recipients; WhatsApp phone-number-id, token & recipient (or swap for the Twilio / WhatsApp Business node). Add `?period=YYYY-MM` to the URL to override the default (previous month)." },
+      "id": "a0", "name": "Notes", "type": "n8n-nodes-base.stickyNote", "typeVersion": 1, "position": [220, 40]
+    }
+  ],
+  "connections": {
+    "Schedule: 1st 07:00": { "main": [ [ { "node": "Get report pack", "type": "main", "index": 0 } ] ] },
+    "Webhook: send now": { "main": [ [ { "node": "Get report pack", "type": "main", "index": 0 } ] ] },
+    "Get report pack": { "main": [ [ { "node": "Gmail: email summary", "type": "main", "index": 0 }, { "node": "WhatsApp: send summary", "type": "main", "index": 0 } ] ] }
+  }
+}

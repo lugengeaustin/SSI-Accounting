@@ -159,7 +159,7 @@ function CreateModal({ clients, onClose, onSaved }: { clients: Client[]; onClose
           ))}
         </tbody>
       </table>
-      <button className="mt-2 text-[13px] font-semibold text-brand-blue" onClick={() => setLines((ls) => [...ls, { ...blank }])}>+ Add line</button>
+      <button className="mt-2 text-[13px] font-medium text-brand-blue" onClick={() => setLines((ls) => [...ls, { ...blank }])}>+ Add line</button>
 
       <div className="mt-3 flex flex-col items-end gap-1 text-[13px]">
         <div>Subtotal <b className="mono ml-3">{num(subtotal)}</b></div>

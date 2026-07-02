@@ -23,9 +23,9 @@ export default function Assets() {
     <>
       <PageHeader title="Fixed assets" crumb="Register · straight-line depreciation" actions={canWrite ? <><button className="btn btn-ghost btn-sm mr-2" onClick={runDep} disabled={busy}>Run depreciation</button><button className="btn btn-sm" onClick={() => setAdd(true)}>+ Add asset</button></> : undefined} />
       <div className="mb-4 grid grid-cols-3 gap-4 max-[980px]:grid-cols-1">
-        <Card className="p-[18px]"><div className="text-[12px] uppercase tracking-wide text-muted">Cost</div><div className="mono mt-1.5 text-[22px] font-bold">{num(totCost)}</div></Card>
-        <Card className="p-[18px]"><div className="text-[12px] uppercase tracking-wide text-muted">Accumulated depreciation</div><div className="mono mt-1.5 text-[22px] font-bold">{num(totAcc)}</div></Card>
-        <Card className="p-[18px]"><div className="text-[12px] uppercase tracking-wide text-muted">Net book value</div><div className="mono mt-1.5 text-[22px] font-bold">{num(totCost - totAcc)}</div></Card>
+        <Card className="p-[18px]"><div className="text-[12px] uppercase tracking-wide text-muted">Cost</div><div className="mono mt-1.5 text-[22px] font-medium">{num(totCost)}</div></Card>
+        <Card className="p-[18px]"><div className="text-[12px] uppercase tracking-wide text-muted">Accumulated depreciation</div><div className="mono mt-1.5 text-[22px] font-medium">{num(totAcc)}</div></Card>
+        <Card className="p-[18px]"><div className="text-[12px] uppercase tracking-wide text-muted">Net book value</div><div className="mono mt-1.5 text-[22px] font-medium">{num(totCost - totAcc)}</div></Card>
       </div>
       <Card>
         <div className="overflow-x-auto">

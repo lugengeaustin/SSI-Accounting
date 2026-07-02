@@ -79,7 +79,7 @@ export default function Budgets() {
       {projectId && (
         <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
           <Card className="p-4">
-            <h3 className="mb-2 text-[15px] font-bold">Budget lines</h3>
+            <h3 className="mb-2 text-[15px] font-medium">Budget lines</h3>
             <table className="w-full border-collapse">
               <thead><tr><th className="th">Account</th><th className="th text-right">Budget</th><th className="th"></th></tr></thead>
               <tbody>
@@ -92,19 +92,19 @@ export default function Budgets() {
                 ))}
               </tbody>
             </table>
-            <button className="mt-2 text-[13px] font-semibold text-brand-blue" onClick={() => setLines((a) => [...a, { account_code: "5100", budget_amount: "" }])}>+ Add line</button>
+            <button className="mt-2 text-[13px] font-medium text-brand-blue" onClick={() => setLines((a) => [...a, { account_code: "5100", budget_amount: "" }])}>+ Add line</button>
             <div className="mt-4 flex justify-end"><button className="btn btn-sm" onClick={save} disabled={busy}>Save budget</button></div>
           </Card>
 
           <Card className="p-0">
-            <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-bold">Budget vs Actual</h3></div>
+            <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Budget vs Actual</h3></div>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead><tr><th className="th">Account</th><th className="th text-right">Budget</th><th className="th text-right">Actual</th><th className="th text-right">Variance</th></tr></thead>
                 <tbody>
                   {rows.length ? rows.map((r) => {
                     const v = Number(r.budget_amount || 0) - Number(r.actual || 0);
-                    return (<tr key={r.account_code || ""}><td className="td">{r.account_name}</td><td className="td mono text-right">{num(r.budget_amount)}</td><td className="td mono text-right">{num(r.actual)}</td><td className="td mono text-right"><span className={v < 0 ? "font-bold text-brand-red" : "text-brand-green"}>{num(v)}</span></td></tr>);
+                    return (<tr key={r.account_code || ""}><td className="td">{r.account_name}</td><td className="td mono text-right">{num(r.budget_amount)}</td><td className="td mono text-right">{num(r.actual)}</td><td className="td mono text-right"><span className={v < 0 ? "font-medium text-brand-red" : "text-brand-green"}>{num(v)}</span></td></tr>);
                   }) : (<tr><td className="td" colSpan={4}><Empty title="No budget yet" hint="Add budget lines and save to see variance." /></td></tr>)}
                 </tbody>
               </table>

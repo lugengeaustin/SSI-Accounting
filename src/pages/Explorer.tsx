@@ -66,7 +66,7 @@ export default function Explorer() {
       {loading ? <Loading /> : (
         <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
           <Card className="p-4">
-            <h3 className="mb-3 text-[15px] font-bold">By {dimLabel}</h3>
+            <h3 className="mb-3 text-[15px] font-medium">By {dimLabel}</h3>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.slice(0, 12)} layout="vertical" margin={{ left: 20 }}>
@@ -74,18 +74,18 @@ export default function Explorer() {
                   <XAxis type="number" fontSize={11} tickFormatter={(v) => (v / 1000).toFixed(0) + "k"} />
                   <YAxis type="category" dataKey="name" fontSize={11} width={110} />
                   <Tooltip formatter={(v: any) => num(v)} />
-                  <Bar dataKey="value" fill="#1E3FA0" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="value" fill="var(--blue)" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </Card>
           <Card className="p-0">
-            <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-bold">{dimLabel} · {measLabel}</h3></div>
+            <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">{dimLabel} · {measLabel}</h3></div>
             <div className="max-h-72 overflow-y-auto"><table className="w-full border-collapse">
               <thead><tr><th className="th">{dimLabel}</th><th className="th text-right">{measLabel}</th></tr></thead>
               <tbody>
                 {data.length ? data.map((d) => (<tr key={d.name}><td className="td">{d.name}</td><td className="td mono text-right">{num(d.value)}</td></tr>)) : (<tr><td className="td p-6 text-center text-muted" colSpan={2}>No data for these filters.</td></tr>)}
-                <tr><td className="td text-right font-bold">Total</td><td className="td mono text-right font-bold">{num(total)}</td></tr>
+                <tr><td className="td text-right font-medium">Total</td><td className="td mono text-right font-medium">{num(total)}</td></tr>
               </tbody>
             </table></div>
           </Card>

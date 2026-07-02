@@ -213,12 +213,12 @@ function RetireModal({ imp, cashAccts, expenseAccts, onClose, onDone }: { imp: I
           ))}
         </tbody>
       </table>
-      <button className="mt-2 text-[13px] font-semibold text-brand-blue" onClick={() => setLines((ls) => [...ls, { description: "", account_code: "5100", receipt_no: "", amount: "" }])}>+ Add expense line</button>
+      <button className="mt-2 text-[13px] font-medium text-brand-blue" onClick={() => setLines((ls) => [...ls, { description: "", account_code: "5100", receipt_no: "", amount: "" }])}>+ Add expense line</button>
 
       <div className="mt-3 flex items-center justify-end gap-5 text-[13px]">
         <span className="text-muted">Spent <b className="mono">{num(spent)}</b></span>
         <span className="text-muted">Issued <b className="mono">{num(issued)}</b></span>
-        <span className={diff < -0.005 ? "font-bold text-brand-red" : "font-bold text-brand-green"}>{diff > 0.005 ? "Return " + num(diff) : diff < -0.005 ? "Reimburse " + num(-diff) : "Balanced 0.00"}</span>
+        <span className={diff < -0.005 ? "font-medium text-brand-red" : "font-medium text-brand-green"}>{diff > 0.005 ? "Return " + num(diff) : diff < -0.005 ? "Reimburse " + num(-diff) : "Balanced 0.00"}</span>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3">

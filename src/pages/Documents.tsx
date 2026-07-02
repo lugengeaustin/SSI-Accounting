@@ -114,7 +114,7 @@ export default function Documents() {
 
   const Picker = ({ title, hint, value, onChange, options, onGo, label }: any) => (
     <Card className="p-5">
-      <h3 className="text-[15px] font-bold">{title}</h3>
+      <h3 className="text-[15px] font-medium">{title}</h3>
       <p className="mb-3 text-[13px] text-muted">{hint}</p>
       <div className="flex gap-2">
         <select className="input" value={value} onChange={(e) => onChange(e.target.value)}><option value="">— select —</option>{options}</select>
@@ -129,7 +129,7 @@ export default function Documents() {
 
       {/* Company receipt generator */}
       <Card className="mb-4 p-5">
-        <h3 className="text-[15px] font-bold">Generate official receipt</h3>
+        <h3 className="text-[15px] font-medium">Generate official receipt</h3>
         <p className="mb-3 text-[13px] text-muted">Issue a numbered SSI receipt (RCT-####) for money received — downloaded and stored.</p>
         <div className="grid grid-cols-4 gap-3 max-[980px]:grid-cols-1">
           <div><label className="label">Received from</label><input className="input" value={rc.from} onChange={(e) => setRc({ ...rc, from: e.target.value })} placeholder="Client / payer" /></div>
@@ -140,14 +140,14 @@ export default function Documents() {
         <div className="mt-3 flex justify-end"><button className="btn btn-sm" onClick={genReceipt} disabled={busy}>Generate &amp; store receipt</button></div>
       </Card>
 
-      <h3 className="mb-2 mt-1 text-[12px] font-semibold uppercase tracking-wide text-muted">Word (.docx) — generated &amp; stored</h3>
+      <h3 className="mb-2 mt-1 text-[12px] font-medium uppercase tracking-wide text-muted">Word (.docx) — generated &amp; stored</h3>
       <div className="grid grid-cols-3 gap-4 max-[980px]:grid-cols-1">
         <Picker title="Invoice" hint="Editable Word invoice." value={sel.dinv} onChange={(v: string) => setSel({ ...sel, dinv: v })} onGo={docxInvoice} label="DOCX" options={invoices.map((i) => (<option key={i.id} value={i.id}>{i.invoice_no} · {num(i.total)}</option>))} />
         <Picker title="Imprest Retirement" hint="SSI retirement form." value={sel.dimp} onChange={(v: string) => setSel({ ...sel, dimp: v })} onGo={docxImprest} label="DOCX" options={imprests.map((i) => (<option key={i.id} value={i.id}>{i.imprest_no} · {i.officer_name}</option>))} />
         <Picker title="Project Retirement" hint="Project closeout report." value={sel.dproj} onChange={(v: string) => setSel({ ...sel, dproj: v })} onGo={docxProject} label="DOCX" options={projfin.map((p) => (<option key={p.id} value={p.id || ""}>{p.code} · {p.name}</option>))} />
       </div>
 
-      <h3 className="mb-2 mt-6 text-[12px] font-semibold uppercase tracking-wide text-muted">PDF (print / save as PDF — not stored)</h3>
+      <h3 className="mb-2 mt-6 text-[12px] font-medium uppercase tracking-wide text-muted">PDF (print / save as PDF — not stored)</h3>
       <div className="grid grid-cols-3 gap-4 max-[980px]:grid-cols-1">
         <Picker title="Invoice" hint="Client-facing invoice." value={sel.inv} onChange={(v: string) => setSel({ ...sel, inv: v })} onGo={pdfInvoice} label="PDF" options={invoices.map((i) => (<option key={i.id} value={i.id}>{i.invoice_no} · {num(i.total)}</option>))} />
         <Picker title="Payment voucher" hint="From any posted entry." value={sel.entry} onChange={(v: string) => setSel({ ...sel, entry: v })} onGo={pdfVoucher} label="PDF" options={entries.map((e) => (<option key={e.id} value={e.id}>{e.ref_no} · {e.description?.slice(0, 24)}</option>))} />
@@ -156,7 +156,7 @@ export default function Documents() {
 
       {/* Document library */}
       <Card className="mt-6">
-        <div className="flex items-center justify-between border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-bold">Document library ({docs.length})</h3></div>
+        <div className="flex items-center justify-between border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Document library ({docs.length})</h3></div>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead><tr><th className="th">Type</th><th className="th">Ref</th><th className="th">Generated</th><th className="th"></th></tr></thead>

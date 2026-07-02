@@ -19,10 +19,10 @@ export default function Settings() {
       </div>
       <div className="mt-4 grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
         {org && isAdmin && <CloseCard org={org} onSaved={setOrg} />}
-        {isAdmin ? <AddAccount onSaved={refreshRef} /> : <Card className="p-5"><h3 className="text-[15px] font-bold">Chart of accounts</h3><p className="text-muted">Admin access required to add accounts.</p></Card>}
+        {isAdmin ? <AddAccount onSaved={refreshRef} /> : <Card className="p-5"><h3 className="text-[15px] font-medium">Chart of accounts</h3><p className="text-muted">Admin access required to add accounts.</p></Card>}
       </div>
       <Card className="mt-4">
-        <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-bold">Chart of accounts ({ref.accounts.length})</h3></div>
+        <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Chart of accounts ({ref.accounts.length})</h3></div>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead><tr><th className="th">Code</th><th className="th">Account</th><th className="th">Category</th><th className="th">Sub-category</th><th className="th">Normal</th></tr></thead>
@@ -52,7 +52,7 @@ function CompanyTax({ org, isAdmin, onSaved }: { org: OrgSettings; isAdmin: bool
   }
   return (
     <Card className="p-5">
-      <h3 className="text-[15px] font-bold">Company &amp; tax</h3>
+      <h3 className="text-[15px] font-medium">Company &amp; tax</h3>
       <label className="label">Company name</label><input className="input" disabled={!isAdmin} value={f.company_name} onChange={(e) => up("company_name", e.target.value)} />
       <div className="grid grid-cols-2 gap-3"><div><label className="label">TIN</label><input className="input" disabled={!isAdmin} value={f.tin} onChange={(e) => up("tin", e.target.value)} /></div><div><label className="label">VRN (VAT)</label><input className="input" disabled={!isAdmin} value={f.vrn} onChange={(e) => up("vrn", e.target.value)} /></div></div>
       <div className="grid grid-cols-2 gap-3"><div><label className="label">VAT registered</label><select className="input" disabled={!isAdmin} value={f.vat_registered ? "y" : "n"} onChange={(e) => up("vat_registered", e.target.value === "y")}><option value="y">Yes</option><option value="n">No</option></select></div><div><label className="label">Fiscal year starts</label><select className="input" disabled={!isAdmin} value={f.fiscal_year_start_month} onChange={(e) => up("fiscal_year_start_month", e.target.value)}>{months.map((m, i) => (<option key={i} value={i + 1}>{m}</option>))}</select></div></div>
@@ -81,7 +81,7 @@ function CloseCard({ org, onSaved }: { org: OrgSettings; onSaved: (o: OrgSetting
   }
   return (
     <Card className="p-5">
-      <h3 className="text-[15px] font-bold">Period &amp; year-end close</h3>
+      <h3 className="text-[15px] font-medium">Period &amp; year-end close</h3>
       <p className="mb-2 text-[13px] text-muted">Lock the books through a date to block backdated edits. Currently locked through: <b>{org.locked_through || "— open —"}</b></p>
       <label className="label">Through date</label><input className="input" type="date" value={through} onChange={(e) => setThrough(e.target.value)} />
       <div className="mt-4 flex flex-wrap gap-2">
@@ -103,7 +103,7 @@ function FxRates({ rates, currencies, onSaved }: { rates: Record<string, number>
   }
   return (
     <Card className="p-5">
-      <h3 className="text-[15px] font-bold">FX rates → base (TSh)</h3>
+      <h3 className="text-[15px] font-medium">FX rates → base (TSh)</h3>
       <p className="mb-3 text-[13px] text-muted">1 unit of currency = X TSh.</p>
       {currencies.map((c) => (
         <div key={c.code} className="mb-2 flex items-center gap-2">
@@ -130,7 +130,7 @@ function AddAccount({ onSaved }: { onSaved: () => void }) {
   }
   return (
     <Card className="p-5">
-      <h3 className="text-[15px] font-bold">Add account</h3>
+      <h3 className="text-[15px] font-medium">Add account</h3>
       <div className="grid grid-cols-2 gap-3"><div><label className="label">Code</label><input className="input" value={f.code} onChange={(e) => up("code", e.target.value)} placeholder="e.g. 5600" /></div><div><label className="label">Normal balance</label><select className="input" value={f.normal_balance} onChange={(e) => up("normal_balance", e.target.value)}><option>Debit</option><option>Credit</option></select></div></div>
       <label className="label">Name</label><input className="input" value={f.name} onChange={(e) => up("name", e.target.value)} />
       <div className="grid grid-cols-2 gap-3"><div><label className="label">Category</label><select className="input" value={f.category} onChange={(e) => up("category", e.target.value)}><option>Assets</option><option>Liabilities</option><option>Equity</option><option>Revenue</option><option>Expenses</option></select></div><div><label className="label">Sub-category</label><input className="input" value={f.sub_category} onChange={(e) => up("sub_category", e.target.value)} /></div></div>

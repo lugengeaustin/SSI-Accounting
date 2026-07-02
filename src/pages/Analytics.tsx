@@ -6,8 +6,9 @@ import { accountBalances, cashBook, arAging, type AccountBalance, type CashBookR
 import { num } from "../lib/format";
 import { Card, Loading, PageHeader } from "../components/ui";
 
-const C = { blue: "#1E3FA0", gold: "#F0C84A", green: "#22B14C", red: "#C0392B", grey: "#94a3b8" };
-const PIE = [C.blue, C.gold, C.green, C.red, "#7c6df0", "#0ea5e9", "#f97316", C.grey];
+// Chart pigments — var-backed Calm Studio palette (theme-aware, no raw hex).
+const C = { blue: "var(--blue)", gold: "var(--gold)", green: "var(--green)", red: "var(--red)", grey: "var(--muted)" };
+const PIE = [C.blue, C.gold, C.green, C.red, "var(--blue-deep)", "var(--green-deep)", "var(--warn)", C.grey];
 const domain: Record<string, string> = { "4000": "Consulting", "4010": "Training", "4020": "Research", "4100": "Grants" };
 
 export default function Analytics() {
@@ -43,7 +44,7 @@ export default function Analytics() {
       <PageHeader title="Analytics" crumb="Revenue, expenses, cash flow & receivables" />
       <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
         <Card className="p-4">
-          <h3 className="mb-3 text-[15px] font-bold">Revenue by domain</h3>
+          <h3 className="mb-3 text-[15px] font-medium">Revenue by domain</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={revData}><CartesianGrid strokeDasharray="3 3" vertical={false} /><XAxis dataKey="name" fontSize={12} /><YAxis fontSize={11} tickFormatter={(v) => (v / 1000).toFixed(0) + "k"} /><Tooltip formatter={fmt as any} /><Bar dataKey="value" fill={C.blue} radius={[4, 4, 0, 0]} /></BarChart>
@@ -51,7 +52,7 @@ export default function Analytics() {
           </div>
         </Card>
         <Card className="p-4">
-          <h3 className="mb-3 text-[15px] font-bold">Expense mix</h3>
+          <h3 className="mb-3 text-[15px] font-medium">Expense mix</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart><Pie data={expData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={(e: any) => e.name}>{expData.map((_, i) => (<Cell key={i} fill={PIE[i % PIE.length]} />))}</Pie><Tooltip formatter={fmt as any} /></PieChart>
@@ -59,7 +60,7 @@ export default function Analytics() {
           </div>
         </Card>
         <Card className="p-4">
-          <h3 className="mb-3 text-[15px] font-bold">Monthly cash flow</h3>
+          <h3 className="mb-3 text-[15px] font-medium">Monthly cash flow</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={cashData}><CartesianGrid strokeDasharray="3 3" vertical={false} /><XAxis dataKey="m" fontSize={11} /><YAxis fontSize={11} tickFormatter={(v) => (v / 1000).toFixed(0) + "k"} /><Tooltip formatter={fmt as any} /><Legend /><Bar dataKey="In" fill={C.green} radius={[4, 4, 0, 0]} /><Bar dataKey="Out" fill={C.red} radius={[4, 4, 0, 0]} /></BarChart>
@@ -67,7 +68,7 @@ export default function Analytics() {
           </div>
         </Card>
         <Card className="p-4">
-          <h3 className="mb-3 text-[15px] font-bold">Receivables aging</h3>
+          <h3 className="mb-3 text-[15px] font-medium">Receivables aging</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={buckets}><CartesianGrid strokeDasharray="3 3" vertical={false} /><XAxis dataKey="name" fontSize={12} /><YAxis fontSize={11} tickFormatter={(v) => (v / 1000).toFixed(0) + "k"} /><Tooltip formatter={fmt as any} /><Bar dataKey="v" fill={C.gold} radius={[4, 4, 0, 0]} /></BarChart>
