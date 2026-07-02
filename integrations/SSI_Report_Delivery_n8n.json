@@ -16,7 +16,7 @@
         "method": "GET",
         "url": "https://eatygefbexdxrqmstkeu.supabase.co/functions/v1/report-pack",
         "sendHeaders": true,
-        "headerParameters": { "parameters": [ { "name": "x-token", "value": "ssi_report_1b6adc5301cbb37efdaf52e26bf79e4fe0d9e801bc9cfe9b" } ] },
+        "headerParameters": { "parameters": [ { "name": "x-token", "value": "REPLACE_REPORT_TOKEN" } ] },
         "options": {}
       },
       "id": "a3", "name": "Get report pack", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2, "position": [560, 300]
