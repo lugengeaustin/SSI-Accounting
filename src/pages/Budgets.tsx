@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../lib/AuthContext";
 import { listBudgets, createBudget, listBudgetLines, replaceBudgetLines, budgetActual, type Budget, type BudgetActualRow } from "../lib/api";
 import { num } from "../lib/format";
-import { Card, Loading, PageHeader, Empty, toast } from "../components/ui";
+import { Card, CardHeader, Loading, PageHeader, Empty, toast } from "../components/ui";
 
 export default function Budgets() {
   const { ref } = useAuth();
@@ -68,7 +68,7 @@ export default function Budgets() {
   return (
     <>
       <PageHeader title="Budgets" crumb="Per-project budgets & variance" />
-      <Card className="mb-4 p-4">
+      <Card className="mb-6 p-5">
         <label className="label">Project</label>
         <select className="input max-w-md" value={projectId} onChange={(e) => selectProject(e.target.value)}>
           <option value="">— select a project —</option>
@@ -77,8 +77,8 @@ export default function Budgets() {
       </Card>
 
       {projectId && (
-        <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
-          <Card className="p-4">
+        <div className="grid grid-cols-2 gap-3.5 max-[980px]:grid-cols-1">
+          <Card className="p-5">
             <h3 className="mb-2 text-[15px] font-medium">Budget lines</h3>
             <table className="w-full border-collapse">
               <thead><tr><th className="th">Account</th><th className="th text-right">Budget</th><th className="th"></th></tr></thead>
@@ -97,7 +97,7 @@ export default function Budgets() {
           </Card>
 
           <Card className="p-0">
-            <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Budget vs Actual</h3></div>
+            <CardHeader title="Budget vs Actual" />
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead><tr><th className="th">Account</th><th className="th text-right">Budget</th><th className="th text-right">Actual</th><th className="th text-right">Variance</th></tr></thead>

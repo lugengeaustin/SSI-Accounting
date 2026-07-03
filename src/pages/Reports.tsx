@@ -6,7 +6,7 @@ import {
 import { num, money, csvDownload, today } from "../lib/format";
 import { exportXlsx } from "../lib/xlsx";
 import { reportDocx } from "../lib/docx";
-import { Card, Loading, PageHeader, Modal, toast } from "../components/ui";
+import { Card, CardHeader, Stat, Segmented, Loading, PageHeader, Modal, toast } from "../components/ui";
 
 type Tab = "pnl" | "balance" | "trial" | "cashflow" | "cash" | "vat" | "wht" | "ar" | "budget" | "projects" | "imp";
 const TABS: [Tab, string][] = [
@@ -25,11 +25,7 @@ export default function Reports() {
     <>
       <PageHeader title="Reports" crumb="Period-aware statements · drill-down · CSV / Excel / Word export" />
       <div className="mb-3.5 flex flex-wrap items-end gap-3">
-        <div className="inline-flex flex-wrap overflow-hidden rounded-field border border-line">
-          {TABS.map(([k, l]) => (
-            <button key={k} onClick={() => setTab(k)} className={`border-r border-line px-3 py-1.5 text-[13px] last:border-r-0 ${tab === k ? "bg-brand-blue text-white" : "bg-white text-muted"}`}>{l}</button>
-          ))}
-        </div>
+        <Segmented options={TABS} value={tab} onChange={setTab} />
         {(usesRange || usesAsAt) && (
           <div className="flex items-end gap-2">
             {usesRange && <div><label className="label !mt-0">From</label><input className="input !py-1.5" type="date" value={from} onChange={(e) => setFrom(e.target.value)} /></div>}
@@ -96,9 +92,9 @@ function PnlReport({ from, to }: { from: string; to: string }) {
   const tr = rev.reduce((s, r) => s + Number(r.amount || 0), 0);
   const te = exp.reduce((s, r) => s + Number(r.amount || 0), 0);
   const Section = ({ title, rs }: { title: string; rs: typeof rows }) => (
-    <Card className="mb-3.5"><div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">{title}</h3></div>
+    <Card className="mb-3.5"><CardHeader title={title} />
       <div className="overflow-x-auto"><table className="w-full border-collapse"><tbody>
-        {rs.map((r) => (<tr key={r.code} className="cursor-pointer hover:bg-bg" onClick={() => setDrill({ code: r.code, name: r.name })}><td className="td">{r.code} · {r.name}</td><td className="td mono text-right">{num(r.amount)}</td></tr>))}
+        {rs.map((r) => (<tr key={r.code} className="cursor-pointer hover:bg-blue-soft" onClick={() => setDrill({ code: r.code, name: r.name })}><td className="td">{r.code} · {r.name}</td><td className="td mono text-right">{num(r.amount)}</td></tr>))}
         {!rs.length && <tr><td className="td text-muted">None in period</td></tr>}
       </tbody></table></div></Card>
   );
@@ -130,7 +126,7 @@ function TrialReport({ asAt }: { asAt: string }) {
       <Card><div className="overflow-x-auto"><table className="w-full border-collapse">
         <thead><tr><th className="th">Code</th><th className="th">Account</th><th className="th text-right">Debit</th><th className="th text-right">Credit</th></tr></thead>
         <tbody>
-          {rows.map((r) => (<tr key={r.code} className="cursor-pointer hover:bg-bg" onClick={() => setDrill({ code: r.code, name: r.name })}><td className="td mono">{r.code}</td><td className="td">{r.name}</td><td className="td mono text-right">{Number(r.debit) ? num(r.debit) : ""}</td><td className="td mono text-right">{Number(r.credit) ? num(r.credit) : ""}</td></tr>))}
+          {rows.map((r) => (<tr key={r.code} className="cursor-pointer hover:bg-blue-soft" onClick={() => setDrill({ code: r.code, name: r.name })}><td className="td mono">{r.code}</td><td className="td">{r.name}</td><td className="td mono text-right">{Number(r.debit) ? num(r.debit) : ""}</td><td className="td mono text-right">{Number(r.credit) ? num(r.credit) : ""}</td></tr>))}
           <tr><td className="td"></td><td className="td text-right font-medium">Totals (as at {asAt})</td><td className="td mono text-right font-medium">{num(td)}</td><td className="td mono text-right font-medium">{num(tc)}</td></tr>
         </tbody>
       </table></div></Card>
@@ -153,9 +149,9 @@ function BalanceSheetReport({ asAt }: { asAt: string }) {
   const tL = liab.reduce((s, r) => s + Number(r.amount || 0), 0);
   const tE = eq.reduce((s, r) => s + Number(r.amount || 0), 0);
   const Section = ({ title, rs, total, drillable }: { title: string; rs: typeof rows; total: number; drillable?: boolean }) => (
-    <Card className="mb-3.5"><div className="flex justify-between border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">{title}</h3><b className="mono">{num(total)}</b></div>
+    <Card className="mb-3.5"><CardHeader title={title} actions={<b className="mono">{num(total)}</b>} />
       <div className="overflow-x-auto"><table className="w-full border-collapse"><tbody>
-        {rs.map((r) => (<tr key={r.code} className={drillable && r.code !== "3199" ? "cursor-pointer hover:bg-bg" : ""} onClick={() => drillable && r.code !== "3199" && setDrill({ code: r.code, name: r.name })}><td className="td">{r.code} · {r.name}</td><td className="td mono text-right">{num(r.amount)}</td></tr>))}
+        {rs.map((r) => (<tr key={r.code} className={drillable && r.code !== "3199" ? "cursor-pointer hover:bg-blue-soft" : ""} onClick={() => drillable && r.code !== "3199" && setDrill({ code: r.code, name: r.name })}><td className="td">{r.code} · {r.name}</td><td className="td mono text-right">{num(r.amount)}</td></tr>))}
         {!rs.length && <tr><td className="td text-muted">None</td></tr>}
       </tbody></table></div></Card>
   );
@@ -236,9 +232,9 @@ function WhtReport() {
   const rec = Number(bal.find((a) => a.code === "1150")?.balance || 0);
   const pay = Number(bal.find((a) => a.code === "2210")?.balance || 0);
   return (
-    <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
-      <Card className="p-5"><div className="text-[12px] uppercase tracking-wide text-muted">WHT Receivable (clients withheld)</div><div className="mono mt-2 text-[26px] font-medium">{num(rec)}</div><p className="mt-2 text-[13px] text-muted">Claim as a tax credit on your TRA return.</p></Card>
-      <Card className="p-5"><div className="text-[12px] uppercase tracking-wide text-muted">WHT Payable (you withheld)</div><div className="mono mt-2 text-[26px] font-medium">{num(pay)}</div><p className="mt-2 text-[13px] text-muted">Remit to TRA and issue certificates to payees.</p></Card>
+    <div className="grid grid-cols-2 gap-3.5 max-[980px]:grid-cols-1">
+      <Stat k="WHT Receivable (clients withheld)" v={num(rec)} accent="green" hint="Claim as a tax credit on your TRA return." />
+      <Stat k="WHT Payable (you withheld)" v={num(pay)} accent="gold" hint="Remit to TRA and issue certificates to payees." />
     </div>
   );
 }
@@ -271,7 +267,7 @@ function BudgetReport() {
       {projects.length ? projects.map((pn) => {
         const rs = rows.filter((r) => (r.project_name || "—") === pn);
         return (
-          <Card key={pn} className="mb-3.5"><div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">{pn}</h3></div>
+          <Card key={pn} className="mb-3.5"><CardHeader title={pn} />
             <div className="overflow-x-auto"><table className="w-full border-collapse">
               <thead><tr><th className="th">Account</th><th className="th text-right">Budget</th><th className="th text-right">Actual</th><th className="th text-right">Variance</th></tr></thead>
               <tbody>{rs.map((r) => { const v = Number(r.budget_amount || 0) - Number(r.actual || 0); return (<tr key={r.account_code || ""}><td className="td">{r.account_name}</td><td className="td mono text-right">{num(r.budget_amount)}</td><td className="td mono text-right">{num(r.actual)}</td><td className="td mono text-right"><span className={v < 0 ? "font-medium text-brand-red" : "text-brand-green"}>{num(v)}</span></td></tr>); })}</tbody>

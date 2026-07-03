@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../lib/AuthContext";
 import { upsertFxRate, insertAccount, getOrgSettings, updateOrgSettings, closePeriod, reopenPeriod, closeYear, type OrgSettings } from "../lib/api";
 import { today } from "../lib/format";
-import { Card, PageHeader, toast } from "../components/ui";
+import { Card, CardHeader, PageHeader, toast } from "../components/ui";
 
 export default function Settings() {
   const { ref, refreshRef, profile } = useAuth();
@@ -13,16 +13,16 @@ export default function Settings() {
   return (
     <>
       <PageHeader title="Settings" crumb="Company, tax, currencies & chart of accounts" />
-      <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
+      <div className="grid grid-cols-2 gap-3.5 max-[980px]:grid-cols-1">
         {org && <CompanyTax org={org} isAdmin={isAdmin} onSaved={setOrg} />}
         <FxRates rates={ref.fx} currencies={ref.currencies} onSaved={refreshRef} />
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
+      <div className="mt-3.5 grid grid-cols-2 gap-3.5 max-[980px]:grid-cols-1">
         {org && isAdmin && <CloseCard org={org} onSaved={setOrg} />}
         {isAdmin ? <AddAccount onSaved={refreshRef} /> : <Card className="p-5"><h3 className="text-[15px] font-medium">Chart of accounts</h3><p className="text-muted">Admin access required to add accounts.</p></Card>}
       </div>
-      <Card className="mt-4">
-        <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Chart of accounts ({ref.accounts.length})</h3></div>
+      <Card className="mt-6">
+        <CardHeader title={`Chart of accounts (${ref.accounts.length})`} />
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead><tr><th className="th">Code</th><th className="th">Account</th><th className="th">Category</th><th className="th">Sub-category</th><th className="th">Normal</th></tr></thead>

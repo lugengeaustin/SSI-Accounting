@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../lib/AuthContext";
 import { listEmployees, insertEmployee, updateEmployee, listPayrollRuns, listPayslips, runPayroll, type Employee, type PayrollRun, type Payslip } from "../lib/payroll";
 import { num } from "../lib/format";
-import { Card, Loading, PageHeader, Modal, Empty, toast } from "../components/ui";
+import { Card, CardHeader, Stat, Loading, PageHeader, Modal, Empty, toast } from "../components/ui";
 
 export default function Payroll() {
   const { profile } = useAuth();
@@ -22,13 +22,13 @@ export default function Payroll() {
   return (
     <>
       <PageHeader title="Payroll" crumb="Staff · PAYE / NSSF / SDL / WCF · payslips" actions={canWrite ? <><button className="btn btn-ghost btn-sm mr-2" onClick={() => setRunOpen(true)}>Run payroll</button><button className="btn btn-sm" onClick={() => setEditEmp(null)}>+ Add employee</button></> : undefined} />
-      <div className="mb-4 grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
-        <Card className="p-[18px]"><div className="text-[12px] uppercase tracking-wide text-muted">Active employees</div><div className="mt-1.5 text-[22px] font-medium">{emps.filter((e) => e.active).length}</div></Card>
-        <Card className="p-[18px]"><div className="text-[12px] uppercase tracking-wide text-muted">Monthly gross payroll</div><div className="mono mt-1.5 text-[22px] font-medium">{num(monthlyGross)}</div></Card>
+      <div className="mb-6 grid grid-cols-2 gap-3.5 max-[980px]:grid-cols-1">
+        <Stat k="Active employees" v={emps.filter((e) => e.active).length} accent="blue" />
+        <Stat k="Monthly gross payroll" v={num(monthlyGross)} accent="green" />
       </div>
 
-      <Card className="mb-4">
-        <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Employees</h3></div>
+      <Card className="mb-6">
+        <CardHeader title="Employees" />
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead><tr><th className="th">Name</th><th className="th">Position</th><th className="th text-right">Gross</th><th className="th">TIN</th><th className="th">Status</th><th className="th"></th></tr></thead>
@@ -42,7 +42,7 @@ export default function Payroll() {
       </Card>
 
       <Card>
-        <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">Payroll runs</h3></div>
+        <CardHeader title="Payroll runs" />
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead><tr><th className="th">Period</th><th className="th text-right">Gross</th><th className="th text-right">PAYE</th><th className="th text-right">NSSF</th><th className="th text-right">SDL+WCF</th><th className="th text-right">Net</th><th className="th"></th></tr></thead>

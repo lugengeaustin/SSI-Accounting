@@ -11,7 +11,7 @@ import {
   type JournalEntry,
 } from "../lib/api";
 import { money, num } from "../lib/format";
-import { Card, Stat, Tag, Loading, PageHeader, Empty } from "../components/ui";
+import { Card, CardHeader, Stat, Tag, Loading, PageHeader, Empty } from "../components/ui";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -52,24 +52,21 @@ export default function Dashboard() {
   return (
     <>
       <PageHeader title="Dashboard" crumb="Financial position · base currency TSh" />
-      <div className="mb-4 grid grid-cols-4 gap-4 max-[980px]:grid-cols-2">
+      <div className="mb-3.5 grid grid-cols-4 gap-3.5 max-[980px]:grid-cols-2">
         <Stat k="Cash & Bank" v={money(cash)} accent="blue" />
         <Stat k="Revenue (YTD)" v={money(rev)} accent="green" />
         <Stat k="Expenses (YTD)" v={money(exp)} accent="red" />
         <Stat k="Net surplus" v={money(rev - exp)} accent="gold" />
       </div>
-      <div className="mb-4 grid grid-cols-3 gap-4 max-[980px]:grid-cols-1">
+      <div className="mb-6 grid grid-cols-3 gap-3.5 max-[980px]:grid-cols-1">
         <Stat k="Outstanding imprests" v={<>{imp.length} <span className="text-[14px] font-medium text-muted">· {money(held)} held</span></>} />
         <Stat k="Aged > 14 days" v={aged} accent={aged ? "red" : undefined} />
         <Stat k="Receipts to review" v={review} accent={review ? "gold" : undefined} />
       </div>
 
       {imp.length > 0 && (
-        <Card className="mb-4">
-          <div className="flex items-center justify-between border-b border-line px-[18px] py-3.5">
-            <h3 className="text-[15px] font-medium">Outstanding imprests — unretired cash</h3>
-            <Link to="/imprests" className="btn btn-ghost btn-sm">Manage</Link>
-          </div>
+        <Card className="mb-6">
+          <CardHeader title="Outstanding imprests — unretired cash" actions={<Link to="/imprests" className="btn btn-ghost btn-sm">Manage</Link>} />
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
@@ -96,10 +93,7 @@ export default function Dashboard() {
       )}
 
       <Card>
-        <div className="flex items-center justify-between border-b border-line px-[18px] py-3.5">
-          <h3 className="text-[15px] font-medium">Recent transactions</h3>
-          <Link to="/transactions" className="btn btn-ghost btn-sm">View ledger</Link>
-        </div>
+        <CardHeader title="Recent transactions" actions={<Link to="/transactions" className="btn btn-ghost btn-sm">View ledger</Link>} />
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>

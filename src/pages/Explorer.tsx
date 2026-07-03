@@ -5,7 +5,7 @@ import { ledger, type LedgerRow } from "../lib/api";
 import { num, today, csvDownload } from "../lib/format";
 import { exportXlsx } from "../lib/xlsx";
 import { reportDocx } from "../lib/docx";
-import { Card, Loading, PageHeader, toast } from "../components/ui";
+import { Card, CardHeader, Loading, PageHeader, toast } from "../components/ui";
 
 const DIMS: [keyof LedgerRow, string][] = [
   ["category", "Category"], ["account_name", "Account"], ["project_name", "Project"],
@@ -46,7 +46,7 @@ export default function Explorer() {
   return (
     <>
       <PageHeader title="Report Explorer" crumb="Build any view of the ledger — pick a dimension, measure and filters" />
-      <Card className="mb-4 p-4">
+      <Card className="mb-6 p-5">
         <div className="grid grid-cols-3 gap-3 max-[980px]:grid-cols-1">
           <div><label className="label">From</label><input className="input" type="date" value={from} onChange={(e) => setFrom(e.target.value)} /></div>
           <div><label className="label">To</label><input className="input" type="date" value={to} onChange={(e) => setTo(e.target.value)} /></div>
@@ -64,8 +64,8 @@ export default function Explorer() {
       </Card>
 
       {loading ? <Loading /> : (
-        <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
-          <Card className="p-4">
+        <div className="grid grid-cols-2 gap-3.5 max-[980px]:grid-cols-1">
+          <Card className="p-5">
             <h3 className="mb-3 text-[15px] font-medium">By {dimLabel}</h3>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
@@ -80,7 +80,7 @@ export default function Explorer() {
             </div>
           </Card>
           <Card className="p-0">
-            <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">{dimLabel} · {measLabel}</h3></div>
+            <CardHeader title={<>{dimLabel} · {measLabel}</>} />
             <div className="max-h-72 overflow-y-auto"><table className="w-full border-collapse">
               <thead><tr><th className="th">{dimLabel}</th><th className="th text-right">{measLabel}</th></tr></thead>
               <tbody>

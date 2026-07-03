@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { listClients, insertClient, updateClient, listVendors, insertVendor, updateVendor, type Client, type Vendor } from "../lib/api";
-import { Card, Loading, PageHeader, Modal, Empty, toast } from "../components/ui";
+import { Card, Segmented, Loading, PageHeader, Modal, Empty, toast } from "../components/ui";
 
 export default function Contacts() {
   const [tab, setTab] = useState<"clients" | "vendors">("clients");
   return (
     <>
       <PageHeader title="Contacts" crumb="Clients & vendors" />
-      <div className="mb-3.5 inline-flex overflow-hidden rounded-field border border-line">
-        {(["clients", "vendors"] as const).map((t) => (
-          <button key={t} onClick={() => setTab(t)} className={`border-r border-line px-3 py-1.5 text-[13px] capitalize last:border-r-0 ${tab === t ? "bg-brand-blue text-white" : "bg-white text-muted"}`}>{t}</button>
-        ))}
+      <div className="mb-3.5">
+        <Segmented options={[["clients", "Clients"], ["vendors", "Vendors"]] as const} value={tab} onChange={setTab} />
       </div>
       {tab === "clients" ? <Clients /> : <Vendors />}
     </>
@@ -26,7 +24,7 @@ function Clients() {
   if (loading) return <Loading />;
   return (
     <Card>
-      <div className="flex justify-end p-3"><button className="btn btn-sm" onClick={() => setEdit(null)}>+ Add client</button></div>
+      <div className="flex justify-end px-5 py-3"><button className="btn btn-sm" onClick={() => setEdit(null)}>+ Add client</button></div>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead><tr><th className="th">Name</th><th className="th">TIN</th><th className="th">Email</th><th className="th">Phone</th><th className="th"></th></tr></thead>
@@ -51,7 +49,7 @@ function Vendors() {
   if (loading) return <Loading />;
   return (
     <Card>
-      <div className="flex justify-end p-3"><button className="btn btn-sm" onClick={() => setEdit(null)}>+ Add vendor</button></div>
+      <div className="flex justify-end px-5 py-3"><button className="btn btn-sm" onClick={() => setEdit(null)}>+ Add vendor</button></div>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead><tr><th className="th">Name</th><th className="th">TIN</th><th className="th">Category</th><th className="th"></th></tr></thead>

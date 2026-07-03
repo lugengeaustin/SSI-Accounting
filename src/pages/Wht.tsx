@@ -3,7 +3,7 @@ import { useAuth } from "../lib/AuthContext";
 import { accountBalances, type AccountBalance } from "../lib/api";
 import { whtRegister, remitWht, type WhtRow } from "../lib/automation";
 import { num } from "../lib/format";
-import { Card, Loading, PageHeader, toast } from "../components/ui";
+import { Card, CardHeader, Stat, Loading, PageHeader, toast } from "../components/ui";
 
 export default function Wht() {
   const { profile } = useAuth();
@@ -29,12 +29,12 @@ export default function Wht() {
   return (
     <>
       <PageHeader title="Withholding tax" crumb="Withheld vs remitted · TRA" actions={canWrite && pay > 0 ? <button className="btn btn-sm" onClick={remit} disabled={busy}>Remit {num(pay)} to TRA</button> : undefined} />
-      <div className="mb-4 grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
-        <Card className="p-5"><div className="text-[12px] uppercase tracking-wide text-muted">WHT Payable (to remit)</div><div className="mono mt-2 text-[26px] font-medium">{num(pay)}</div><p className="mt-2 text-[13px] text-muted">Deducted from facilitators / landlords — remit to TRA.</p></Card>
-        <Card className="p-5"><div className="text-[12px] uppercase tracking-wide text-muted">WHT Receivable (credit)</div><div className="mono mt-2 text-[26px] font-medium">{num(rec)}</div><p className="mt-2 text-[13px] text-muted">Withheld by clients — claim on your return.</p></Card>
+      <div className="mb-6 grid grid-cols-2 gap-3.5 max-[980px]:grid-cols-1">
+        <Stat k="WHT Payable (to remit)" v={num(pay)} accent="gold" hint="Deducted from facilitators / landlords — remit to TRA." />
+        <Stat k="WHT Receivable (credit)" v={num(rec)} accent="green" hint="Withheld by clients — claim on your return." />
       </div>
       <Card>
-        <div className="border-b border-line px-[18px] py-3.5"><h3 className="text-[15px] font-medium">WHT register</h3></div>
+        <CardHeader title="WHT register" />
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead><tr><th className="th">Date</th><th className="th">Ref</th><th className="th">Description</th><th className="th text-right">Withheld</th><th className="th text-right">Remitted</th></tr></thead>

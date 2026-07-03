@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { accountBalances, type AccountBalance } from "../lib/api";
 import { num } from "../lib/format";
-import { Card, Loading, PageHeader } from "../components/ui";
+import { Card, CardHeader, Loading, PageHeader } from "../components/ui";
 
 const CATS = ["Assets", "Liabilities", "Equity", "Revenue", "Expenses"];
 
@@ -26,10 +26,7 @@ export default function Accounts() {
         const tot = rs.reduce((s, a) => s + Number(a.balance || 0), 0);
         return (
           <Card key={cat} className="mb-3.5">
-            <div className="flex items-center justify-between border-b border-line px-[18px] py-3.5">
-              <h3 className="text-[15px] font-medium">{cat}</h3>
-              <b className="mono">{num(tot)}</b>
-            </div>
+            <CardHeader title={cat} actions={<b className="mono">{num(tot)}</b>} />
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>

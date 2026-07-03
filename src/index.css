@@ -236,7 +236,14 @@
     @apply bg-danger text-white hover:brightness-95;
   }
   .card {
-    @apply rounded-card border border-ssi-ink/5 bg-card shadow-card;
+    @apply rounded-card border border-line bg-card shadow-card transition-calm;
+  }
+  /* Calm row hover — the suite DataTable tint, for any table living in a card. */
+  .card tbody tr {
+    transition: background-color var(--dur-base) var(--ease-calm);
+  }
+  .card tbody tr:hover {
+    background-color: var(--blue-soft);
   }
   .input {
     @apply w-full rounded-field border border-line bg-card px-3 py-2.5 text-sm text-ink outline-none transition-calm focus:border-blue focus:ring-2 focus:ring-ssi-blue/15;
@@ -245,12 +252,12 @@
     @apply mb-1.5 mt-3 block text-[12px] font-medium uppercase tracking-wide text-muted;
   }
   .tag {
-    @apply inline-block rounded-pill px-2.5 py-0.5 text-[11.5px] font-medium;
+    @apply inline-flex items-center rounded-pill px-2.5 py-1 text-[11.5px] font-medium leading-none;
   }
   .th {
-    @apply border-b border-line px-3 py-2.5 text-left text-[11px] font-medium uppercase tracking-wide text-muted;
+    @apply border-b border-line px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-[0.04em] text-muted;
   }
   .td {
-    @apply border-b border-line px-3 py-2.5 text-[13.5px] align-middle;
+    @apply border-b border-line px-4 py-3 text-[13.5px] align-middle;
   }
 }

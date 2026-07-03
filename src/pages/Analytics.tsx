@@ -42,8 +42,8 @@ export default function Analytics() {
   return (
     <>
       <PageHeader title="Analytics" crumb="Revenue, expenses, cash flow & receivables" />
-      <div className="grid grid-cols-2 gap-4 max-[980px]:grid-cols-1">
-        <Card className="p-4">
+      <div className="grid grid-cols-2 gap-3.5 max-[980px]:grid-cols-1">
+        <Card className="p-5">
           <h3 className="mb-3 text-[15px] font-medium">Revenue by domain</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -51,7 +51,7 @@ export default function Analytics() {
             </ResponsiveContainer>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="p-5">
           <h3 className="mb-3 text-[15px] font-medium">Expense mix</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -59,7 +59,7 @@ export default function Analytics() {
             </ResponsiveContainer>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="p-5">
           <h3 className="mb-3 text-[15px] font-medium">Monthly cash flow</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -67,7 +67,7 @@ export default function Analytics() {
             </ResponsiveContainer>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="p-5">
           <h3 className="mb-3 text-[15px] font-medium">Receivables aging</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">

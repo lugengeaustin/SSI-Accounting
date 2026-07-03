@@ -93,9 +93,9 @@ export default function Wizard() {
   return (
     <>
       <PageHeader title="Master wizard" crumb="Reconstruct a past project — project → invoices → expenses" />
-      <div className="mb-4 flex gap-2">
+      <div className="mb-6 flex flex-wrap gap-2">
         {STEPS.map((s, i) => (
-          <div key={s} className={`flex items-center gap-2 rounded-full px-3 py-1 text-[12.5px] font-medium ${i === step ? "bg-brand-blue text-white" : i < step ? "bg-green-soft text-green-deep" : "bg-bg text-muted"}`}>
+          <div key={s} className={`flex items-center gap-2 rounded-pill px-3 py-1 text-[12.5px] font-medium transition-calm ${i === step ? "bg-grad-primary text-white shadow-card" : i < step ? "bg-green-soft text-green-deep" : "border border-line bg-card text-muted"}`}>
             <span className="grid h-5 w-5 place-items-center rounded-full bg-white/30 text-[11px]">{i < step ? "✓" : i + 1}</span>{s}
           </div>
         ))}
