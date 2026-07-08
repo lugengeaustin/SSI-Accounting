@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../lib/AuthContext";
 import {
   listInvoices, createInvoice, issueInvoice, payInvoice, payInvoiceWHT, getInvoiceLines, listClients, nextNumber,
+  getOrgSettings,
   type Invoice, type Client,
 } from "../lib/api";
 import { num, today } from "../lib/format";
@@ -201,8 +202,32 @@ function PayModal({ inv, accounts, onClose, onDone }: { inv: Invoice; accounts: 
   const cashAccts = accounts.filter((a) => ["1000", "1010"].includes(a.code));
   const [cash, setCash] = useState("1000");
   const [wht, setWht] = useState("0");
+  const [whtHint, setWhtHint] = useState("");
   const [busy, setBusy] = useState(false);
   const whtNum = Number(wht) || 0;
+  // Default the WHT amount from the org's configured resident WHT rate (Settings
+  // → wht_resident_rate) rather than making the user type it from scratch. These
+  // rates were saved but never used anywhere; this wires them into the invoice
+  // payment. The field stays editable — it's a default, not a lock.
+  useEffect(() => {
+    let alive = true;
+    getOrgSettings()
+      .then((org) => {
+        if (!alive) return;
+        const rate = Number(org?.wht_resident_rate) || 0;
+        if (rate > 0) {
+          const amount = Math.round((Number(inv.total || 0) * rate) / 100 * 100) / 100;
+          setWht(String(amount));
+          setWhtHint(`Defaulted to ${rate}% resident WHT — edit if the client withheld a different amount.`);
+        }
+      })
+      .catch(() => {
+        /* settings unavailable → leave WHT at 0, honest fallback */
+      });
+    return () => {
+      alive = false;
+    };
+  }, [inv.total]);
   async function go() {
     setBusy(true);
     try {
@@ -223,6 +248,7 @@ function PayModal({ inv, accounts, onClose, onDone }: { inv: Invoice; accounts: 
         <div><label className="label">Received into</label><select className="input" value={cash} onChange={(e) => setCash(e.target.value)}>{cashAccts.map((a) => (<option key={a.code} value={a.code}>{a.code} · {a.name}</option>))}</select></div>
         <div><label className="label">WHT withheld by client</label><input className="input" type="number" step="0.01" value={wht} onChange={(e) => setWht(e.target.value)} /></div>
       </div>
+      {whtHint && <p className="mt-1 text-[12px] text-muted">{whtHint}</p>}
       {whtNum > 0 && <p className="mt-2 text-[12.5px] text-muted">Net cash {num(Number(inv.total || 0) - whtNum)} · WHT credit {num(whtNum)} → account 1150.</p>}
     </Modal>
   );

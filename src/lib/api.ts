@@ -133,8 +133,6 @@ export async function replaceRetireLines(imprestId: string, lines: T["imprest_re
 /* ---------- reporting views ---------- */
 export const accountBalances = async () =>
   ok<AccountBalance[]>(await supabase.from("v_account_balances").select("*").order("sort"));
-export const trialBalance = async () =>
-  ok<TrialRow[]>(await supabase.from("v_trial_balance").select("*"));
 export const cashPosition = async () =>
   ok<{ cash_on_hand: number | null }>(await supabase.from("v_cash_position").select("*").single());
 export const outstandingImprests = async () =>
@@ -279,7 +277,6 @@ export async function receiptImageUrl(path: string) {
   const { data } = await supabase.storage.from("receipts").createSignedUrl(path, 3600);
   return data?.signedUrl || null;
 }
-export const myRole = async () => ok<string>(await supabase.rpc("fn_role", {}));
 
 /* ---------- document library (generated + stored) ---------- */
 export type DocumentRow = T["documents"]["Row"];

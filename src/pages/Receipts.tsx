@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../lib/AuthContext";
 import {
   listReceipts, insertReceipt, updateReceipt, postReceipt, nextNumber, uploadReceiptImage, receiptImageUrl,
+  getOrgSettings,
   type Receipt, type Account, type Currency, type Project,
 } from "../lib/api";
+
+// Statutory Tanzania VAT rate. Input VAT is only extractable when the org is
+// VAT-registered (org_settings.vat_registered) — a non-registered entity cannot
+// reclaim input VAT, so the VAT-able control is gated on that setting.
+const VAT_RATE = 0.18;
 import { num, today } from "../lib/format";
 import { Card, Tag, Segmented, Loading, PageHeader, Modal, Empty, toast } from "../components/ui";
 
@@ -114,6 +120,26 @@ function ReceiptModal({
   });
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
+  // VAT is only reclaimable when the org is VAT-registered. Load the setting once
+  // (it was saved in Settings but never consulted anywhere); when the org is not
+  // registered we disable the VAT-able control and force VAT to 0.
+  const [vatRegistered, setVatRegistered] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    getOrgSettings()
+      .then((org) => {
+        if (!alive) return;
+        const reg = !!org?.vat_registered;
+        setVatRegistered(reg);
+        if (!reg) setF((s) => ({ ...s, vat_able: false, vat: "0" }));
+      })
+      .catch(() => {
+        /* settings unavailable → leave as-is */
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
   const up = (k: string, v: any) => setF((s) => ({ ...s, [k]: v }));
 
   async function save() {
@@ -169,10 +195,11 @@ function ReceiptModal({
         <div><label className="label">Project</label><select className="input" value={f.project_id} onChange={(e) => up("project_id", e.target.value)}><option value="">— none —</option>{projects.map((p) => (<option key={p.id} value={p.id}>{p.name}</option>))}</select></div>
       </div>
       <div className="grid grid-cols-3 gap-3">
-        <div><label className="label">Amount</label><input className="input" type="number" step="0.01" value={f.amount} onChange={(e) => { up("amount", e.target.value); if (f.vat_able) { const a = Number(e.target.value) || 0; up("vat", (a - a / 1.18).toFixed(2)); } }} /></div>
-        <div><label className="label">VAT</label><input className="input" type="number" step="0.01" value={f.vat} onChange={(e) => up("vat", e.target.value)} /></div>
-        <div><label className="label">VAT-able</label><select className="input" value={f.vat_able ? "y" : "n"} onChange={(e) => { const able = e.target.value === "y"; up("vat_able", able); if (able) { const a = Number(f.amount) || 0; up("vat", (a - a / 1.18).toFixed(2)); } }}><option value="n">No</option><option value="y">Yes</option></select></div>
+        <div><label className="label">Amount</label><input className="input" type="number" step="0.01" value={f.amount} onChange={(e) => { up("amount", e.target.value); if (f.vat_able) { const a = Number(e.target.value) || 0; up("vat", (a - a / (1 + VAT_RATE)).toFixed(2)); } }} /></div>
+        <div><label className="label">VAT</label><input className="input" type="number" step="0.01" value={f.vat} onChange={(e) => up("vat", e.target.value)} disabled={!vatRegistered} /></div>
+        <div><label className="label">VAT-able</label><select className="input" disabled={!vatRegistered} value={f.vat_able ? "y" : "n"} onChange={(e) => { const able = e.target.value === "y"; up("vat_able", able); if (able) { const a = Number(f.amount) || 0; up("vat", (a - a / (1 + VAT_RATE)).toFixed(2)); } else { up("vat", "0"); } }}><option value="n">No</option><option value="y">Yes</option></select></div>
       </div>
+      {!vatRegistered && <p className="mt-1 text-[12px] text-muted">Org is not VAT-registered (Settings) — input VAT is not reclaimable, so VAT is disabled.</p>}
       <label className="label">Receipt image / PDF (optional)</label>
       <input className="input" type="file" accept="image/*,application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />
     </Modal>
