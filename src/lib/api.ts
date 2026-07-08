@@ -274,6 +274,8 @@ export async function uploadReceiptImage(file: File, id: string) {
   return path;
 }
 export async function receiptImageUrl(path: string) {
+  // Absolute URLs (e.g. Paperless documents from the capture pipeline) pass through as-is.
+  if (/^https?:\/\//i.test(path)) return path;
   const { data } = await supabase.storage.from("receipts").createSignedUrl(path, 3600);
   return data?.signedUrl || null;
 }
