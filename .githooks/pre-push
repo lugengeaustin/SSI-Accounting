@@ -1,0 +1,9 @@
+#!/bin/sh
+# SSI pre-push gate — block pushes that do not typecheck (full build runs in CI).
+# Emergency override:  git push --no-verify
+echo "> pre-push: typecheck..."
+if ! npx --yes tsc --noEmit; then
+  echo "x typecheck failed — push blocked (use --no-verify to override)."
+  exit 1
+fi
+echo "> typecheck clean — pushing."
