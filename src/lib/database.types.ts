@@ -12,6 +12,105 @@ export type Database = {
   }
   public: {
     Tables: {
+      expense_claims: {
+        Row: {
+          claimant_id: string | null
+          claimant_name: string
+          created_at: string
+          currency: string
+          engagement_ref: string | null
+          fx_rate: number
+          id: string
+          imprest_id: string | null
+          journal_entry_id: string | null
+          kind: string
+          project_id: string | null
+          purpose: string | null
+          review_note: string | null
+          reviewed_at: string | null
+          source: string
+          status: string
+          submitted_by: string | null
+          total: number
+        }
+        Insert: {
+          claimant_id?: string | null
+          claimant_name: string
+          created_at?: string
+          currency?: string
+          engagement_ref?: string | null
+          fx_rate?: number
+          id?: string
+          imprest_id?: string | null
+          journal_entry_id?: string | null
+          kind: string
+          project_id?: string | null
+          purpose?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          source?: string
+          status?: string
+          submitted_by?: string | null
+          total?: number
+        }
+        Update: {
+          claimant_id?: string | null
+          claimant_name?: string
+          created_at?: string
+          currency?: string
+          engagement_ref?: string | null
+          fx_rate?: number
+          id?: string
+          imprest_id?: string | null
+          journal_entry_id?: string | null
+          kind?: string
+          project_id?: string | null
+          purpose?: string | null
+          review_note?: string | null
+          reviewed_at?: string | null
+          source?: string
+          status?: string
+          submitted_by?: string | null
+          total?: number
+        }
+        Relationships: []
+      }
+      expense_claim_lines: {
+        Row: {
+          account_code: string | null
+          amount: number
+          claim_id: string
+          description: string
+          id: string
+          receipt_no: string | null
+          receipt_path: string | null
+          remarks: string | null
+          vat: number
+        }
+        Insert: {
+          account_code?: string | null
+          amount?: number
+          claim_id: string
+          description: string
+          id?: string
+          receipt_no?: string | null
+          receipt_path?: string | null
+          remarks?: string | null
+          vat?: number
+        }
+        Update: {
+          account_code?: string | null
+          amount?: number
+          claim_id?: string
+          description?: string
+          id?: string
+          receipt_no?: string | null
+          receipt_path?: string | null
+          remarks?: string | null
+          vat?: number
+        }
+        Relationships: []
+      }
       accounts: {
         Row: {
           category: string
