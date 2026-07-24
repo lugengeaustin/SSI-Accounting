@@ -11,6 +11,7 @@ const groups: Group[] = [
     { to: "/transactions", label: "Transactions" },
     { to: "/imprests", label: "Imprests" },
     { to: "/my-expenses", label: "My Expenses" },
+    { to: "/expense-review", label: "Expense Review" },
     { to: "/payroll", label: "Payroll" },
   ] },
   { section: "Billing", items: [

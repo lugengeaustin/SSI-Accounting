@@ -7,6 +7,7 @@ import Receipts from "./pages/Receipts";
 import Transactions from "./pages/Transactions";
 import Imprests from "./pages/Imprests";
 import MyExpenses from "./pages/MyExpenses";
+import ExpenseReview from "./pages/ExpenseReview";
 import Accounts from "./pages/Accounts";
 import Reports from "./pages/Reports";
 import Team from "./pages/Team";
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/imprests" element={<Imprests />} />
         <Route path="/my-expenses" element={<MyExpenses />} />
+        <Route path="/expense-review" element={<ExpenseReview />} />
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contacts" element={<Contacts />} />
