@@ -10,6 +10,7 @@ const groups: Group[] = [
     { to: "/receipts", label: "Receipts" },
     { to: "/transactions", label: "Transactions" },
     { to: "/imprests", label: "Imprests" },
+    { to: "/my-expenses", label: "My Expenses" },
     { to: "/payroll", label: "Payroll" },
   ] },
   { section: "Billing", items: [
