@@ -21,6 +21,13 @@ function ok<X>(res: { data: X | null; error: { message: string } | null }): X {
   return res.data as X;
 }
 
+// The generated Database types don't declare the WS3 guest RPCs, so call them
+// through a loosely-typed shim (same spirit as api.ts's `as any` on rpc args).
+const rpcAny = supabase.rpc.bind(supabase) as unknown as (
+  fn: string,
+  args?: Record<string, unknown>,
+) => Promise<{ data: unknown; error: { message: string } | null }>;
+
 // My own submissions — RLS returns only the caller's rows (or all, for finance).
 export const listMyClaims = async () =>
   ok<ExpenseClaim[]>(
@@ -132,6 +139,40 @@ export async function approveAndPost(claim: ExpenseClaim): Promise<ExpenseClaim>
       .select("*")
       .single(),
   );
+}
+
+// ── Guest (tokenized, no-login) submission — WS3 cross-app from e-proposals ──
+export type GuestTokenContext = {
+  valid: boolean;
+  used?: boolean;
+  expired?: boolean;
+  claimant_name?: string;
+  engagement_ref?: string | null;
+  purpose?: string | null;
+  kind?: "retirement" | "claim";
+};
+export type GuestLineInput = {
+  description: string;
+  receipt_no?: string | null;
+  amount: number;
+};
+
+export async function resolveGuestToken(token: string): Promise<GuestTokenContext> {
+  const { data, error } = await rpcAny("resolve_expense_guest_token", { p_token: token });
+  if (error) throw new Error(error.message);
+  return (data as GuestTokenContext) ?? { valid: false };
+}
+
+export async function submitGuestExpense(
+  token: string,
+  lines: GuestLineInput[],
+): Promise<{ ok: boolean; error?: string; claim_id?: string }> {
+  const { data, error } = await rpcAny("submit_guest_expense", {
+    p_token: token,
+    p_lines: lines,
+  });
+  if (error) throw new Error(error.message);
+  return data as { ok: boolean; error?: string; claim_id?: string };
 }
 
 export async function rejectClaim(id: string, note: string): Promise<ExpenseClaim> {

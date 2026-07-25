@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
+import RetireGuest from "./pages/RetireGuest";
 import Dashboard from "./pages/Dashboard";
 import Receipts from "./pages/Receipts";
 import Transactions from "./pages/Transactions";
@@ -31,6 +32,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/retire/:token" element={<RetireGuest />} />
       <Route
         element={
           <ProtectedRoute>
