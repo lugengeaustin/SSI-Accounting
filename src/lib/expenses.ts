@@ -6,7 +6,7 @@ import { supabase } from "./supabase";
 import { postJournal, type LineInput } from "./api";
 import type { Database } from "./database.types";
 
-type T = Database["public"]["Tables"];
+type T = Database["finance"]["Tables"];
 export type ExpenseClaim = T["expense_claims"]["Row"];
 export type ExpenseClaimLine = T["expense_claim_lines"]["Row"];
 export type ClaimHeaderInput = Omit<
@@ -56,7 +56,7 @@ export const getClaimLines = async (claimId: string) =>
 export async function uploadReceipt(file: File): Promise<string> {
   const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
   const path = `${crypto.randomUUID()}-${safe}`;
-  const { error } = await supabase.storage.from("expense-receipts").upload(path, file);
+  const { error } = await supabase.storage.from("fin-expense-receipts").upload(path, file);
   if (error) throw new Error(error.message);
   return path;
 }

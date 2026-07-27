@@ -19,5 +19,5 @@ if (!supabaseConfigured) {
 export const supabase = createClient<Database>(
   url || "https://placeholder.supabase.co",
   key || "placeholder-anon-key",
-  { auth: { persistSession: true, autoRefreshToken: true } }
+  { auth: { persistSession: true, autoRefreshToken: true }, db: { schema: "finance" } }
 );

@@ -1,4 +1,5 @@
 const SB_URL = import.meta.env.VITE_SUPABASE_URL;
+const SB_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export type DocPayload = {
   filename: string;
@@ -15,7 +16,7 @@ export type DocPayload = {
 export async function docgenBlob(p: DocPayload): Promise<{ filename: string; blob: Blob }> {
   const res = await fetch(`${SB_URL}/functions/v1/docgen`, {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
     body: JSON.stringify(p),
   });
   if (!res.ok) throw new Error("DOCX generation failed (" + res.status + ")");

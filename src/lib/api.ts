@@ -1,8 +1,8 @@
 import { supabase } from "./supabase";
 import type { Database } from "./database.types";
 
-type T = Database["public"]["Tables"];
-type V = Database["public"]["Views"];
+type T = Database["finance"]["Tables"];
+type V = Database["finance"]["Views"];
 
 export type Account = T["accounts"]["Row"];
 export type Currency = T["currencies"]["Row"];
@@ -269,14 +269,14 @@ export type SnapshotRow = T["report_snapshots"]["Row"];
 export const listSnapshots = async () => ok<SnapshotRow[]>(await supabase.from("report_snapshots").select("*").order("created_at", { ascending: false }));
 export async function uploadReceiptImage(file: File, id: string) {
   const path = `${id}/${Date.now()}_${file.name}`;
-  const up = await supabase.storage.from("receipts").upload(path, file, { upsert: true });
+  const up = await supabase.storage.from("fin-receipts").upload(path, file, { upsert: true });
   if (up.error) throw new Error(up.error.message);
   return path;
 }
 export async function receiptImageUrl(path: string) {
   // Absolute URLs (e.g. Paperless documents from the capture pipeline) pass through as-is.
   if (/^https?:\/\//i.test(path)) return path;
-  const { data } = await supabase.storage.from("receipts").createSignedUrl(path, 3600);
+  const { data } = await supabase.storage.from("fin-receipts").createSignedUrl(path, 3600);
   return data?.signedUrl || null;
 }
 
@@ -286,13 +286,13 @@ export const listDocuments = async () =>
   ok<DocumentRow[]>(await supabase.from("documents").select("*").order("created_at", { ascending: false }).limit(300));
 export async function storeDocument(filename: string, blob: Blob, meta: { doc_type: string; entity_type?: string; entity_id?: string | null; ref_no?: string | null }) {
   const path = `${meta.doc_type}/${Date.now()}_${filename}`;
-  const up = await supabase.storage.from("documents").upload(path, blob, { upsert: true, contentType: blob.type || "application/octet-stream" });
+  const up = await supabase.storage.from("fin-documents").upload(path, blob, { upsert: true, contentType: blob.type || "application/octet-stream" });
   if (up.error) throw new Error(up.error.message);
   const ins = await supabase.from("documents").insert({ doc_type: meta.doc_type, entity_type: meta.entity_type ?? null, entity_id: meta.entity_id ?? null, ref_no: meta.ref_no ?? null, file_url: path });
   if (ins.error) throw new Error(ins.error.message);
   return path;
 }
 export async function documentSignedUrl(path: string) {
-  const { data } = await supabase.storage.from("documents").createSignedUrl(path, 3600);
+  const { data } = await supabase.storage.from("fin-documents").createSignedUrl(path, 3600);
   return data?.signedUrl || null;
 }
